@@ -1,8 +1,8 @@
 #include <FEHLCD.h>
 
-int main(void)
-{
+int main(void) {
     LCD.Clear(BLACK);
     LCD.WriteLine("Hello, World!");
-	return 0;
+    LCD.WriteLine("it works");
+    return 0;
 }
