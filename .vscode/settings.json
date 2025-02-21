@@ -1,0 +1,5 @@
+{
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, AlignTrailingComments: { Kind: Always, OverEmptyLines: 1 } , ReflowComments: true, SpacesBeforeTrailingComments: 3, InsertNewlineAtEOF: true, AllowShortBlocksOnASingleLine: Empty, AllowShortFunctionsOnASingleLine: Empty }",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+}
