@@ -1,3 +1,5 @@
+#pragma once
+
 class Drivetrain {
    public:
     enum Axis { forward, left, right };
