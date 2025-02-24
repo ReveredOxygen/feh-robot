@@ -1,4 +1,5 @@
 #include <FEHLCD.h>
+#include <FEHUtility.h>
 
 #include "gui.h"
 
@@ -29,6 +30,7 @@ int main(void) {
 
     while (1) {
         ui.update();
+        Sleep(0.1);
 
         if (ui.wantsStop()) {
             logger.log("Stopping", "gui");
