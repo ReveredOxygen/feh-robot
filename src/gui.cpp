@@ -236,15 +236,18 @@ void MainUI::draw() {
 }
 
 void MainUI::update() {
-    LCD.Clear(BACKGROUND_COLOR);
-
-    draw();
+    if (needsRedraw) {
+        LCD.Clear(BACKGROUND_COLOR);
+        draw();
+        needsRedraw = false;
+    }
 
     int x, y;
     if (LCD.Touch(&x, &y)) {
         if (!previouslyClicked) {
             tray.processClick(x, y);
             mainMenu->processClick(x, y);
+            needsRedraw = true;
         }
 
         previouslyClicked = true;

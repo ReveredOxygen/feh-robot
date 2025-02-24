@@ -104,6 +104,8 @@ class MainUI {
     Tray tray;
     LogDisplay logs;
 
+    bool needsRedraw = true;
+
     void draw();
     void update();
 

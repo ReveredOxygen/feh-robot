@@ -30,14 +30,13 @@ int main(void) {
 
     while (1) {
         ui.update();
-        Sleep(0.1);
 
         if (ui.wantsStop()) {
             logger.log("Stopping", "gui");
             ui.openView(MainUI::MenuView);
         }
     }
-    //comments
+    // comments
 
     return 0;
 }
