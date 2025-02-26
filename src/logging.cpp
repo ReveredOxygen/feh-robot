@@ -42,6 +42,8 @@ string logging::levelName(LogLevel level) {
             return "WARN";
         case Error:
             return "ERROR";
+        default:
+            return "!UNK!";
     }
 }
 
