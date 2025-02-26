@@ -28,12 +28,14 @@ void Menu::addOption(std::string text, std::function<void()> action) {
 void Menu::addSubmenu(std::string text, Menu* submenu) {
     submenus.push_back(submenu);
 
+    int size = submenus.size();
+
     submenu->options.insert(submenu->options.begin(), Button("Back", [this]() {
                                 this->activeSubmenu = -1;
                             }));
 
     options.push_back(
-        Button(text, [this]() { this->activeSubmenu = submenus.size() - 1; }));
+        Button(text, [this, size]() { this->activeSubmenu = size - 1; }));
 }
 
 void Menu::setLeft(int left) {
@@ -199,7 +201,7 @@ void LogDisplay::draw(list<logging::LogMessage>& messages) {
         int rowsNeeded = (len + (cols - 1)) / cols;
         currY -= LETTER_HEIGHT * rowsNeeded;
         for (int i = 0; i < rowsNeeded; i++) {
-            auto line = it->message.substr(i * cols, (i + 1) * cols);
+            auto line = it->message.substr(i * cols, cols);
             if (currY + (i + 1) * LETTER_HEIGHT >= y1) {
                 LCD.WriteAt(line.c_str(), x1, currY + i * LETTER_HEIGHT);
             }
