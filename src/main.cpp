@@ -21,11 +21,6 @@ int main(void) {
             ->withOption("Check Bat", []() {})
             ->withSubmenu("Milestones", milestones::getMenu())
             ->withSubmenu("Demos", demos::getMenu())
-            ->withOption("do nothing", doNothing)
-            ->withOption("do something", doSomething)
-            ->withSubmenu(
-                "submenu",
-                MenuBuilder().withOption("do nothing", doNothing)->build())
             ->build();
 
     ui.openView(MainUI::MenuView);
