@@ -1,5 +1,8 @@
 #include "milestones.h"
 
+#include <FEHUtility.h>
+
+#include "drivetrain.h"
 #include "gui.h"
 #include "logging.h"
 
@@ -21,14 +24,25 @@ void milestone1Part2() {
     logger.log("Begin Milestone 1 Part 2", "gui");
     ui.openView(MainUI::LogView);
 
-    // Complete the actual milestone
+    logger.log("Drive Forward", "mile");
+    drivetrain.driveAxis(Drivetrain::forward, 25);
+    Sleep(10.);
+    logger.log("Done", "mile");
+    drivetrain.stop();
 }
 
 void milestone1Part3() {
     logger.log("Begin Milestone 1 Part 3", "gui");
     ui.openView(MainUI::LogView);
 
-    // Complete the actual milestone
+    logger.log("Drive Forward", "mile");
+    drivetrain.driveAxis(Drivetrain::forward, 25);
+    Sleep(10.);
+    logger.log("Back down", "mile");
+    drivetrain.driveAxis(Drivetrain::forward, -25);
+    Sleep(10.);
+    logger.log("Done", "mile");
+    drivetrain.stop();
 }
 
 }   // namespace milestones
