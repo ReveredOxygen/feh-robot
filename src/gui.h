@@ -117,3 +117,5 @@ class MainUI {
     bool previouslyClicked = true;
     View view;
 };
+
+extern MainUI ui;

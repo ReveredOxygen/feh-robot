@@ -1,7 +1,9 @@
 #include <FEHLCD.h>
 #include <FEHUtility.h>
 
+#include "drivetrain.h"
 #include "gui.h"
+#include "milestones.h"
 
 void doNothing() {
     logger.log("doing nothing", "idk");
@@ -12,12 +14,11 @@ void doSomething() {
 }
 
 int main(void) {
-    MainUI ui;
-
     ui.mainMenu =
         MenuBuilder()
-            .withOption("View Logs", [&ui]() { ui.openView(MainUI::LogView); })
+            .withOption("View Logs", []() { ui.openView(MainUI::LogView); })
             ->withOption("Check Battery", []() {})
+            ->withSubmenu("Milestones", milestones::getMenu())
             ->withOption("do nothing", doNothing)
             ->withOption("do something", doSomething)
             ->withSubmenu(
@@ -34,6 +35,7 @@ int main(void) {
 
         if (ui.wantsStop()) {
             logger.log("Stopping", "gui");
+            drivetrain.stop();
             ui.openView(MainUI::MenuView);
         }
     }

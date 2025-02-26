@@ -299,3 +299,5 @@ bool MainUI::wantsStop() {
 
     return result;
 }
+
+MainUI ui;
