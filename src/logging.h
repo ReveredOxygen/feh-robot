@@ -19,7 +19,8 @@ class Logger {
    public:
     void log(std::string message, std::string source, LogLevel level = Info);
     std::list<LogMessage> recent;
-    int historyLength = 14;
+    int historyLength = 20;
+    bool newMessages = false;
 };
 
 std::string levelName(LogLevel level);

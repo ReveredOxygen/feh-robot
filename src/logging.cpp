@@ -55,4 +55,6 @@ void Logger::log(string message, string source, LogLevel level) {
     if (recent.size() > historyLength) {
         recent.pop_front();
     }
+
+    newMessages = true;
 }

@@ -1,5 +1,6 @@
 #include "gui.h"
 
+#include <FEHBattery.h>
 #include <FEHLCD.h>
 
 #include <algorithm>
@@ -144,7 +145,13 @@ void Tray::draw() {
     LCD.SetFontColor(BACKGROUND_COLOR);
     LCD.FillRectangle(0, 0, 319, TRAY_HEIGHT);
     LCD.SetFontColor(BUTTON_COLOR);
-    LCD.DrawHorizontalLine(TRAY_HEIGHT, 0, 319);
+    LCD.DrawHorizontalLine(TRAY_HEIGHT + 1, 0, 319);
+
+    LCD.SetFontColor(TEXT_COLOR);
+    char voltage[10];
+    sprintf(voltage, "%2.1f V", Battery.Voltage());
+    LCD.WriteAt(voltage, 320 - BUTTON_PADDING - LETTER_WIDTH * 7,
+                BUTTON_PADDING);
 
     stopButton.draw(0, 0, -1);
 }
@@ -245,9 +252,19 @@ void MainUI::update() {
     int x, y;
     if (LCD.Touch(&x, &y)) {
         if (!previouslyClicked) {
-            tray.processClick(x, y);
-            mainMenu->processClick(x, y);
-            needsRedraw = true;
+            if (y > 12) {
+                // The screen has a vertical offset between the display and
+                // touch. This accounts for that
+                y -= 12;
+            }
+
+            needsRedraw |= tray.processClick(x, y);
+            needsRedraw |= mainMenu->processClick(x, y);
+
+            if (logger.newMessages) {
+                logger.newMessages = false;
+                needsRedraw = true;
+            }
         }
 
         previouslyClicked = true;
