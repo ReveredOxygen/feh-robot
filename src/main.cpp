@@ -17,7 +17,7 @@ int main(void) {
     ui.mainMenu =
         MenuBuilder()
             .withOption("View Logs", []() { ui.openView(MainUI::LogView); })
-            ->withOption("Check Battery", []() {})
+            ->withOption("Check Bat", []() {})
             ->withSubmenu("Milestones", milestones::getMenu())
             ->withOption("do nothing", doNothing)
             ->withOption("do something", doSomething)
