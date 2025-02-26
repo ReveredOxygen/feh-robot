@@ -5,11 +5,14 @@
 
 namespace milestones {
 
+void milestone1Part2();
+void milestone1Part3();
+
 Menu* getMenu() {
     return MenuBuilder()
         .withSubmenu("Milestone 1", MenuBuilder()
-                                        .withOption("Part 2", []() {})
-                                        ->withOption("Part 3", []() {})
+                                        .withOption("Part 2", milestone1Part2)
+                                        ->withOption("Part 3", milestone1Part3)
                                         ->build())
         ->build();
 }
