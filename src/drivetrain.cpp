@@ -49,8 +49,8 @@ void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
         rightMotor->SetPercent(-speed / 2);
     } else {
         axialMotor->SetPercent(0);
-        leftMotor->SetPercent(speed);
-        rightMotor->SetPercent(-speed);
+        leftMotor->SetPercent(-speed);
+        rightMotor->SetPercent(speed);
     }
 }
 
