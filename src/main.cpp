@@ -1,6 +1,7 @@
 #include <FEHLCD.h>
 #include <FEHUtility.h>
 
+#include "demos.h"
 #include "drivetrain.h"
 #include "gui.h"
 #include "milestones.h"
@@ -19,6 +20,7 @@ int main(void) {
             .withOption("View Logs", []() { ui.openView(MainUI::LogView); })
             ->withOption("Check Bat", []() {})
             ->withSubmenu("Milestones", milestones::getMenu())
+            ->withSubmenu("Demos", demos::getMenu())
             ->withOption("do nothing", doNothing)
             ->withOption("do something", doSomething)
             ->withSubmenu(
