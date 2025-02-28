@@ -7,16 +7,27 @@
 
 namespace Hardware {
 
-FEHMotor rawRearMotor(FEHMotor::Motor1, 9.0);
-FEHMotor rawLeftMotor(FEHMotor::Motor3, 9.0);
-FEHMotor rawRightMotor(FEHMotor::Motor2, 9.0);
+const int encoderCountsPerRevolution = 318;
+const float wheelDiameter = 2.5;
+extern const float wheelCircumference;
 
-DigitalEncoder rearEncoder(FEHIO::P0_1);
-DigitalEncoder leftEncoder(FEHIO::P3_0);
-DigitalEncoder rightEncoder(FEHIO::P0_0);
+extern FEHMotor rawRearMotor;
+extern FEHMotor rawLeftMotor;
+extern FEHMotor rawRightMotor;
 
-ControlledMotor rearMotor(rawRearMotor, rearEncoder);
-ControlledMotor leftMotor(rawLeftMotor, leftEncoder);
-ControlledMotor rightMotor(rawRightMotor, rightEncoder);
+extern DigitalEncoder rearEncoder;
+extern DigitalEncoder leftEncoder;
+extern DigitalEncoder rightEncoder;
+
+extern ControlledMotor rearMotor;
+extern ControlledMotor leftMotor;
+extern ControlledMotor rightMotor;
+
+inline float countsToDistance(int counts) {
+    const float inchesPerCount =
+        wheelCircumference / encoderCountsPerRevolution;
+
+    return inchesPerCount * counts;
+}
 
 };   // namespace Hardware

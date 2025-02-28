@@ -28,6 +28,9 @@ int main(void) {
     logger.log("Started gui", "gui");
 
     while (1) {
+        Sleep(0.1);
+        drivetrain.update();
+
         ui.update();
 
         if (ui.wantsStop()) {

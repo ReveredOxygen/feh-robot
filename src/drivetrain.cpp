@@ -54,4 +54,10 @@ void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
     }
 }
 
+void Drivetrain::update() {
+    Hardware::rearMotor.update();
+    Hardware::leftMotor.update();
+    Hardware::rightMotor.update();
+}
+
 Drivetrain drivetrain;
