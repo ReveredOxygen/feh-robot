@@ -1,3 +1,5 @@
+#pragma once
+
 #include <FEHIO.h>
 #include <FEHMotor.h>
 
