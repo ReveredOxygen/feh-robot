@@ -27,7 +27,7 @@ void milestone1Part2() {
 
     logger.log("Drive Forward", "mile");
     drivetrain.driveAxis(Drivetrain::forward, 6);
-    activeSleep(10);
+    activeSleep(5);
     logger.log("Done", "mile");
     drivetrain.stop();
 }
@@ -37,11 +37,11 @@ void milestone1Part3() {
     ui.openView(MainUI::LogView);
 
     logger.log("Drive Forward", "mile");
-    drivetrain.driveAxis(Drivetrain::forward, 6);
-    activeSleep(10);
+    drivetrain.driveAxis(Drivetrain::forward, 6, true);
+    activeSleep(5);
     logger.log("Back down", "mile");
-    drivetrain.driveAxis(Drivetrain::forward, -6);
-    activeSleep(10);
+    drivetrain.driveAxis(Drivetrain::forward, -6, true);
+    activeSleep(5);
     logger.log("Done", "mile");
     drivetrain.stop();
 }

@@ -15,6 +15,7 @@ void activeSleep(float seconds) {
     while (startTime + seconds > currTime) {
         Sleep(std::min(0.1f, currTime - startTime + seconds));
         drivetrain.update();
+        ui.update();
 
         if (ui.wantsStop()) {
             logger.log("Stopping", "gui");
@@ -22,5 +23,7 @@ void activeSleep(float seconds) {
             ui.openView(MainUI::MenuView);
             return;
         }
+
+        currTime = TimeNow();
     }
 }
