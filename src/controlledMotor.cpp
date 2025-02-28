@@ -45,7 +45,7 @@ void ControlledMotor::update() {
 
     float error = targetSpeed - speed;
 
-    setRawSpeed(speedToPercent(targetSpeed) + speedToPercent(error));
+    setRawSpeed(speedPercent + speedToPercent(error));
 
     // Store values for next iteration
     previousSpeed = speed;
