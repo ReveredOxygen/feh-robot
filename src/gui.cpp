@@ -13,11 +13,11 @@ const unsigned int TEXT_COLOR = WHITE;
 const unsigned int BUTTON_COLOR = DEEPSKYBLUE;
 const unsigned int BACKGROUND_COLOR = BLACK;
 
-const int BUTTON_PADDING = 3;
+const int BUTTON_PADDING = 5;
 const int TEXT_HEIGHT = 14;
 const int BUTTON_HEIGHT = BUTTON_PADDING * 2 + TEXT_HEIGHT;
 const int LETTER_WIDTH = 12;
-const int LETTER_HEIGHT = 17;
+const int LETTER_HEIGHT = 10 + 2 * BUTTON_PADDING;
 const int TRAY_HEIGHT = 20;
 const int MENU_WIDTH = 150;
 
