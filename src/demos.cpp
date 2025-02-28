@@ -24,9 +24,12 @@ Menu* genAxisMenu(Drivetrain::Axis axis, float speed) {
 
 Menu* drivetrainMenu() {
     return MenuBuilder()
-        .withSubmenu("Forward", genAxisMenu(Drivetrain::forward, 25))
-        ->withSubmenu("Left", genAxisMenu(Drivetrain::left, 25))
-        ->withSubmenu("Right", genAxisMenu(Drivetrain::right, 25))
+        .withSubmenu("Forward", genAxisMenu(Drivetrain::forward, 6))
+        ->withSubmenu("Left", genAxisMenu(Drivetrain::left, 6))
+        ->withSubmenu("Right", genAxisMenu(Drivetrain::right, 6))
+        ->withOption("Clockwise", []() { drivetrain.rotateClockwise(6); })
+        ->withOption("Counterclockwise",
+                     []() { drivetrain.rotateCounterClockwise(6); })
         ->build();
 }
 

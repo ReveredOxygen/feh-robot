@@ -5,25 +5,25 @@
 #include "hardware.h"
 
 void Drivetrain::stop() {
-    Hardware::leftMotor.Stop();
-    Hardware::rightMotor.Stop();
-    Hardware::rearMotor.Stop();
+    Hardware::leftMotor.stop();
+    Hardware::rightMotor.stop();
+    Hardware::rearMotor.stop();
 }
 
 void Drivetrain::rotateClockwise(float speed) {
-    Hardware::leftMotor.SetPercent(speed);
-    Hardware::rightMotor.SetPercent(speed);
-    Hardware::rearMotor.SetPercent(speed);
+    rotateCounterClockwise(-speed);
 }
 
 void Drivetrain::rotateCounterClockwise(float speed) {
-    rotateClockwise(-speed);
+    Hardware::leftMotor.setSpeed(speed);
+    Hardware::rightMotor.setSpeed(speed);
+    Hardware::rearMotor.setSpeed(speed);
 }
 
 void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
-    FEHMotor *axialMotor;
-    FEHMotor *leftMotor;
-    FEHMotor *rightMotor;
+    ControlledMotor *axialMotor;
+    ControlledMotor *leftMotor;
+    ControlledMotor *rightMotor;
 
     switch (axis) {
         case forward:
@@ -44,13 +44,13 @@ void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
 
     // I took this from https://en.wikipedia.org/wiki/Kiwi_drive#Motion
     if (strafe) {
-        axialMotor->SetPercent(speed);
-        leftMotor->SetPercent(-speed / 2);
-        rightMotor->SetPercent(-speed / 2);
+        axialMotor->setSpeed(speed);
+        leftMotor->setSpeed(-speed / 2);
+        rightMotor->setSpeed(-speed / 2);
     } else {
-        axialMotor->SetPercent(0);
-        leftMotor->SetPercent(-speed);
-        rightMotor->SetPercent(speed);
+        axialMotor->setSpeed(0);
+        leftMotor->setSpeed(-speed);
+        rightMotor->setSpeed(speed);
     }
 }
 
