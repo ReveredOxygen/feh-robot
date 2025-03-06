@@ -17,6 +17,10 @@ ControlledMotor rearMotor(rawRearMotor, rearEncoder);
 ControlledMotor leftMotor(rawLeftMotor, leftEncoder);
 ControlledMotor rightMotor(rawRightMotor, rightEncoder);
 
+AnalogInputPin leftOptosensor(FEHIO::P3_7);
+AnalogInputPin centerOptosensor(FEHIO::P3_6);
+AnalogInputPin rightOptosensor(FEHIO::P3_5);
+
 const float wheelCircumference = M_PI * wheelDiameter;
 
 }   // namespace Hardware

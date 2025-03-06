@@ -23,6 +23,10 @@ extern ControlledMotor rearMotor;
 extern ControlledMotor leftMotor;
 extern ControlledMotor rightMotor;
 
+extern AnalogInputPin leftOptosensor;
+extern AnalogInputPin centerOptosensor;
+extern AnalogInputPin rightOptosensor;
+
 inline float countsToDistance(int counts) {
     const float inchesPerCount =
         wheelCircumference / encoderCountsPerRevolution;

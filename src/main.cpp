@@ -4,6 +4,7 @@
 #include "demos.h"
 #include "drivetrain.h"
 #include "gui.h"
+#include "hardware.h"
 #include "milestones.h"
 
 void doNothing() {
@@ -15,6 +16,11 @@ void doSomething() {
 }
 
 int main(void) {
+    // while (true) {
+    //     Sleep(0.1);
+    //     LCD.WriteRC(Hardware::centerOptosensor.Value(), 0, 0);
+    // }
+
     ui.mainMenu =
         MenuBuilder()
             .withOption("View Logs", []() { ui.openView(MainUI::LogView); })
