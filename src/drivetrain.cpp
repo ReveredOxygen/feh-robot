@@ -32,13 +32,14 @@ void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
             rightMotor = &Hardware::rightMotor;
             break;
         case left:
-            axialMotor = &Hardware::leftMotor;
-            leftMotor = &Hardware::rearMotor;
-            rightMotor = &Hardware::rightMotor;
-        case right:
             axialMotor = &Hardware::rightMotor;
             leftMotor = &Hardware::rearMotor;
             rightMotor = &Hardware::leftMotor;
+            break;
+        case right:
+            axialMotor = &Hardware::leftMotor;
+            leftMotor = &Hardware::rightMotor;
+            rightMotor = &Hardware::rearMotor;
             break;
     }
 
