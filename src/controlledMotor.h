@@ -8,12 +8,21 @@
 /// All speeds in inches per second.
 class ControlledMotor {
    public:
-    ControlledMotor(std::string name, FEHMotor motor, DigitalEncoder encoder)
-        : motor(motor), encoder(encoder), name(name) {}
+    ControlledMotor(std::string name, FEHMotor motor, DigitalEncoder encoder);
 
     void setSpeed(float speed);
     void stop();
     void update();
+
+    float getDistance();
+    void resetDistance();
+
+    // float getTargetDistance();
+    // void setTargetDistance(float distance);
+    // void clearTargetDistance();
+
+    // float getMaxSpeed();
+    // void setMaxSpeed(float maxSpeed);
 
     std::string name;
 
@@ -32,4 +41,8 @@ class ControlledMotor {
     int previousCounts = 0;
 
     float speedPercent = 0;
+
+    float distanceTraveled = 0;
+    // float targetDistance;
+    // float maxSpeed = 6;
 };

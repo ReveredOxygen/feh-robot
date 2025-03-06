@@ -1,13 +1,35 @@
+#define _USE_MATH_DEFINES
 #include "drivetrain.h"
 
 #include <FEHMotor.h>
 
+#include <algorithm>
+#include <cmath>
+
 #include "hardware.h"
+#include "logging.h"
+
+using namespace std;
+
+const float ROOT_3 = sqrt(3);
+
+const float P_CONST = 2;
 
 void Drivetrain::stop() {
     Hardware::leftMotor.stop();
     Hardware::rightMotor.stop();
     Hardware::rearMotor.stop();
+
+    resetDistances();
+
+    distanceDriven = 0;
+    leftDist = 0;
+    rightDist = 0;
+    axialDist = 0;
+    targetDistance = NAN;
+
+    targetRotation = NAN;
+    degreesRotated = 0;
 }
 
 void Drivetrain::rotateClockwise(float speed) {
@@ -20,45 +42,121 @@ void Drivetrain::rotateCounterClockwise(float speed) {
     Hardware::rearMotor.setSpeed(speed);
 }
 
-void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
-    ControlledMotor *axialMotor;
-    ControlledMotor *leftMotor;
-    ControlledMotor *rightMotor;
+void Drivetrain::rotateClockwiseDegrees(float degrees) {
+    rotateCounterClockwiseDegrees(-degrees);
+}
 
+void Drivetrain::rotateCounterClockwiseDegrees(float degrees) {
+    stop();
+    targetRotation = degrees;
+}
+
+void Drivetrain::selectMotors(Axis axis) {
     switch (axis) {
         case forward:
-            axialMotor = &Hardware::rearMotor;
-            leftMotor = &Hardware::leftMotor;
-            rightMotor = &Hardware::rightMotor;
+            currentAxialMotor = &Hardware::rearMotor;
+            currentLeftMotor = &Hardware::leftMotor;
+            currentRightMotor = &Hardware::rightMotor;
             break;
         case left:
-            axialMotor = &Hardware::rightMotor;
-            leftMotor = &Hardware::rearMotor;
-            rightMotor = &Hardware::leftMotor;
+            currentAxialMotor = &Hardware::rightMotor;
+            currentLeftMotor = &Hardware::rearMotor;
+            currentRightMotor = &Hardware::leftMotor;
             break;
         case right:
-            axialMotor = &Hardware::leftMotor;
-            leftMotor = &Hardware::rightMotor;
-            rightMotor = &Hardware::rearMotor;
+            currentAxialMotor = &Hardware::leftMotor;
+            currentLeftMotor = &Hardware::rightMotor;
+            currentRightMotor = &Hardware::rearMotor;
             break;
-    }
-
-    // I took this from https://en.wikipedia.org/wiki/Kiwi_drive#Motion
-    if (strafe) {
-        axialMotor->setSpeed(speed);
-        leftMotor->setSpeed(-speed / 2);
-        rightMotor->setSpeed(-speed / 2);
-    } else {
-        axialMotor->setSpeed(0);
-        leftMotor->setSpeed(-speed);
-        rightMotor->setSpeed(speed);
     }
 }
 
+void Drivetrain::driveAxis(Axis axis, float speed, bool strafe) {
+    stop();
+    selectMotors(axis);
+
+    // I took this from https://en.wikipedia.org/wiki/Kiwi_drive#Motion
+    if (strafe) {
+        currentAxialMotor->setSpeed(speed);
+        currentLeftMotor->setSpeed(-speed / 2);
+        currentRightMotor->setSpeed(-speed / 2);
+    } else {
+        currentAxialMotor->setSpeed(0);
+        currentLeftMotor->setSpeed(-speed);
+        currentRightMotor->setSpeed(speed);
+    }
+}
+
+void Drivetrain::driveAxisDistance(Axis axis, float distance, bool strafe) {
+    stop();
+
+    selectMotors(axis);
+    drivingStrafe = strafe;
+    targetDistance = distance;
+}
+
 void Drivetrain::update() {
+    float leftDelta = currentLeftMotor->getDistance() - leftDist;
+    float rightDelta = currentRightMotor->getDistance() - rightDist;
+    float axialDelta = currentAxialMotor->getDistance() - axialDist;
+
+    leftDist += leftDelta;
+    rightDist += rightDelta;
+    axialDist += axialDelta;
+
+    if (!isnan(targetDistance)) {
+        if (!drivingStrafe) {
+            float delta =
+                2. / 3. *
+                ((ROOT_3 / 2.) * rightDelta - (ROOT_3 / 2.) * leftDelta);
+            distanceDriven += delta;
+
+            float error = targetDistance - distanceDriven;
+
+            float command = clamp(error * P_CONST, -6.f, 6.f);
+
+            currentRightMotor->setSpeed(command);
+            currentLeftMotor->setSpeed(-command);
+
+            // logger.log(vformat("%.2f", distanceDriven), "drv");
+        } else {
+            float delta =
+                2. / 3. * (axialDelta - .5 * rightDelta - .5 * leftDelta);
+            distanceDriven += delta;
+
+            float error = targetDistance - distanceDriven;
+
+            float command = clamp(error * P_CONST, -6.f, 6.f);
+
+            currentAxialMotor->setSpeed(command);
+            currentLeftMotor->setSpeed(-command / 2);
+            currentRightMotor->setSpeed(-command / 2);
+
+            // logger.log(vformat("%.2f", distanceDriven), "drv");
+        }
+    } else if (!isnan(targetRotation)) {
+        float delta = 180. / M_PI / 3. / Hardware::wheelCircleRadius *
+                      (leftDelta + rightDelta + axialDelta);
+        degreesRotated += delta;
+
+        float error = targetRotation - degreesRotated;
+
+        float command = clamp(error * P_CONST / 3.0f, -6.f, 6.f);
+
+        currentAxialMotor->setSpeed(command);
+        currentLeftMotor->setSpeed(command);
+        currentRightMotor->setSpeed(command);
+    }
+
     Hardware::rearMotor.update();
     Hardware::leftMotor.update();
     Hardware::rightMotor.update();
+}
+
+void Drivetrain::resetDistances() {
+    Hardware::rearMotor.resetDistance();
+    Hardware::leftMotor.resetDistance();
+    Hardware::rightMotor.resetDistance();
 }
 
 Drivetrain drivetrain;
