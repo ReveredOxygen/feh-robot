@@ -3,15 +3,19 @@
 #include <FEHIO.h>
 #include <FEHMotor.h>
 
+#include <string>
+
 /// All speeds in inches per second.
 class ControlledMotor {
    public:
-    ControlledMotor(FEHMotor motor, DigitalEncoder encoder)
-        : motor(motor), encoder(encoder) {}
+    ControlledMotor(std::string name, FEHMotor motor, DigitalEncoder encoder)
+        : motor(motor), encoder(encoder), name(name) {}
 
     void setSpeed(float speed);
     void stop();
     void update();
+
+    std::string name;
 
    private:
     void setRawSpeed(float percent);

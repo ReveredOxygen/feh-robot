@@ -16,6 +16,8 @@ void ControlledMotor::stop() {
 void ControlledMotor::setSpeed(float speed) {
     setRawSpeed(25. / 6. * speed);
     this->targetSpeed = speed;
+
+    logger.log(vformat("%s: %f", this->name.c_str(), speed), "drv");
 }
 
 // See

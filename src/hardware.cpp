@@ -13,9 +13,9 @@ DigitalEncoder rearEncoder(FEHIO::P0_1);
 DigitalEncoder leftEncoder(FEHIO::P3_0);
 DigitalEncoder rightEncoder(FEHIO::P0_0);
 
-ControlledMotor rearMotor(rawRearMotor, rearEncoder);
-ControlledMotor leftMotor(rawLeftMotor, leftEncoder);
-ControlledMotor rightMotor(rawRightMotor, rightEncoder);
+ControlledMotor rearMotor("rear", rawRearMotor, rearEncoder);
+ControlledMotor leftMotor("left", rawLeftMotor, leftEncoder);
+ControlledMotor rightMotor("right", rawRightMotor, rightEncoder);
 
 AnalogInputPin leftOptosensor(FEHIO::P3_7);
 AnalogInputPin centerOptosensor(FEHIO::P3_6);

@@ -3,6 +3,7 @@
 #include <string>
 
 #include "drivetrain.h"
+#include "hardware.h"
 
 namespace demos {
 
@@ -25,6 +26,14 @@ Menu* genAxisMenu(std::string name, Drivetrain::Axis axis, float speed) {
         ->build();
 }
 
+Menu* genMotorMenu() {
+    return MenuBuilder()
+        .withOption("Rear", []() { Hardware::rearMotor.setSpeed(6); })
+        ->withOption("Left", []() { Hardware::leftMotor.setSpeed(6); })
+        ->withOption("Right", []() { Hardware::rightMotor.setSpeed(6); })
+        ->build();
+}
+
 Menu* drivetrainMenu() {
     return MenuBuilder()
         .withSubmenu("Forward", genAxisMenu("Forward", Drivetrain::forward, 6))
@@ -33,6 +42,7 @@ Menu* drivetrainMenu() {
         ->withOption("Clockwise", []() { drivetrain.rotateClockwise(6); })
         ->withOption("Counterclockwise",
                      []() { drivetrain.rotateCounterClockwise(6); })
+        ->withSubmenu("Motors", genMotorMenu())
         ->build();
 }
 
