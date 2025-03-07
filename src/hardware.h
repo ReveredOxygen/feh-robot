@@ -11,7 +11,7 @@ const int encoderCountsPerRevolution = 318;
 const float wheelDiameter = 2.5;
 extern const float wheelCircumference;
 
-const float wheelCircleRadius = 3.875;
+const float wheelCircleRadius = 3.9375;
 
 extern FEHMotor rawRearMotor;
 extern FEHMotor rawLeftMotor;

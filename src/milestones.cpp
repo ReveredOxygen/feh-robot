@@ -53,6 +53,9 @@ void milestone2() {
     logger.log("Begin Milestone 2", "gui");
     ui.openView(MainUI::LogView);
 
+    while (Hardware::cdsCell.Value() > 2);
+    Sleep(1.);
+
     drivetrain.setMaxSpeed(6);
 
     drivetrain.driveAxisDistance(Drivetrain::forward, -6, true);
@@ -73,7 +76,7 @@ void milestone2() {
     drivetrain.stop();
     activeSleep(0.5);
 
-    drivetrain.rotateClockwiseDegrees(120);
+    drivetrain.rotateClockwiseDegrees(121);
     while (!drivetrain.rotationInThreshold(0.5)) {
         Sleep(0.1);
         tick();
@@ -81,23 +84,34 @@ void milestone2() {
 
     // Drive up ramp
     drivetrain.setMaxSpeed(14);
-    drivetrain.driveAxisDistance(Drivetrain::left, -38, true);
+    drivetrain.driveAxisDistance(Drivetrain::left, -37, true);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
     }
+    drivetrain.setMaxSpeed(6);
+
+    // drivetrain.stop();
+    // activeSleep(0.5);
+
+    // drivetrain.rotateClockwiseDegrees(3);
+    // while (!drivetrain.rotationInThreshold(0.5)) {
+    //     Sleep(0.1);
+    //     tick();
+    // }
 
     drivetrain.stop();
     activeSleep(0.5);
 
     // Drive to indicator
+    float light = 100;
     drivetrain.setMaxSpeed(6);
     drivetrain.driveAxisDistance(Drivetrain::left, -18);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
-        float light = Hardware::cdsCell.Value();
         if (light < 2) {
+            light = Hardware::cdsCell.Value();
             logger.log(vformat("light %.2f", light), "mile");
             break;
         }
@@ -106,11 +120,31 @@ void milestone2() {
     drivetrain.stop();
     activeSleep(0.5);
 
-    // Assume the light is blue
-    drivetrain.driveAxisDistance(Drivetrain::left, 2, true);
-    while (!drivetrain.distanceInThreshold(0.1)) {
-        Sleep(0.1);
-        tick();
+    if (light > 0.7) {
+        // Assume the light is blue
+        logger.log("BLUE", "mile");
+        drivetrain.driveAxisDistance(Drivetrain::left, 1.75, true);
+        while (!drivetrain.distanceInThreshold(0.1)) {
+            Sleep(0.1);
+            tick();
+        }
+    } else {
+        // Light is def red
+        logger.log("RED", "mile");
+        drivetrain.driveAxisDistance(Drivetrain::left, -1, true);
+        while (!drivetrain.distanceInThreshold(0.1)) {
+            Sleep(0.1);
+            tick();
+        }
+
+        drivetrain.stop();
+        activeSleep(0.5);
+
+        drivetrain.driveAxisDistance(Drivetrain::left, 3.5, true);
+        while (!drivetrain.distanceInThreshold(0.1)) {
+            Sleep(0.1);
+            tick();
+        }
     }
 
     drivetrain.stop();
@@ -118,7 +152,7 @@ void milestone2() {
 
     // Ram into the button
     drivetrain.setMaxSpeed(10);
-    drivetrain.driveAxisDistance(Drivetrain::left, -10);
+    drivetrain.driveAxisDistance(Drivetrain::left, -5);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
@@ -129,18 +163,18 @@ void milestone2() {
     activeSleep(0.5);
 
     // Drive back over
-    drivetrain.driveAxisDistance(Drivetrain::left, 25);
+    drivetrain.driveAxisDistance(Drivetrain::left, 20);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
     }
 
     drivetrain.stop();
-    drivetrain.setMaxSpeed(6);
     activeSleep(0.5);
 
     // Go back down
-    drivetrain.driveAxisDistance(Drivetrain::left, 30, true);
+    drivetrain.setMaxSpeed(10);
+    drivetrain.driveAxisDistance(Drivetrain::left, 35, true);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
