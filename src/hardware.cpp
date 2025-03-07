@@ -21,6 +21,8 @@ AnalogInputPin leftOptosensor(FEHIO::P3_7);
 AnalogInputPin centerOptosensor(FEHIO::P3_6);
 AnalogInputPin rightOptosensor(FEHIO::P3_5);
 
+AnalogInputPin cdsCell(FEHIO::P0_7);
+
 const float wheelCircumference = M_PI * wheelDiameter;
 
 }   // namespace Hardware

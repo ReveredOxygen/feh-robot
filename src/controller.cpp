@@ -26,4 +26,20 @@ void activeSleep(float seconds) {
 
         currTime = TimeNow();
     }
+
+    return;
+}
+
+bool tick() {
+    ui.update();
+    drivetrain.update();
+
+    if (ui.wantsStop()) {
+        logger.log("Stopping", "gui");
+        drivetrain.stop();
+        ui.openView(MainUI::MenuView);
+        return true;
+    }
+
+    return false;
 }

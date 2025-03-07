@@ -13,7 +13,7 @@ using namespace std;
 
 const float ROOT_3 = sqrt(3);
 
-const float P_CONST = 2;
+const float P_CONST = 3.5;
 
 void Drivetrain::stop() {
     Hardware::leftMotor.stop();
@@ -113,7 +113,7 @@ void Drivetrain::update() {
 
             float error = targetDistance - distanceDriven;
 
-            float command = clamp(error * P_CONST, -6.f, 6.f);
+            float command = clamp(error * P_CONST, -maxSpeed, maxSpeed);
 
             currentRightMotor->setSpeed(command);
             currentLeftMotor->setSpeed(-command);
@@ -126,7 +126,7 @@ void Drivetrain::update() {
 
             float error = targetDistance - distanceDriven;
 
-            float command = clamp(error * P_CONST, -6.f, 6.f);
+            float command = clamp(error * P_CONST, -maxSpeed, maxSpeed);
 
             currentAxialMotor->setSpeed(command);
             currentLeftMotor->setSpeed(-command / 2);
@@ -141,7 +141,7 @@ void Drivetrain::update() {
 
         float error = targetRotation - degreesRotated;
 
-        float command = clamp(error * P_CONST / 3.0f, -6.f, 6.f);
+        float command = clamp(error / 4.f, -maxSpeed, maxSpeed);
 
         currentAxialMotor->setSpeed(command);
         currentLeftMotor->setSpeed(command);
@@ -153,10 +153,22 @@ void Drivetrain::update() {
     Hardware::rightMotor.update();
 }
 
+bool Drivetrain::distanceInThreshold(float threshold) {
+    return fabs(distanceDriven - targetDistance) < threshold;
+}
+
+bool Drivetrain::rotationInThreshold(float threshold) {
+    return fabs(degreesRotated - targetRotation) < threshold;
+}
+
 void Drivetrain::resetDistances() {
     Hardware::rearMotor.resetDistance();
     Hardware::leftMotor.resetDistance();
     Hardware::rightMotor.resetDistance();
+}
+
+void Drivetrain::setMaxSpeed(float speed) {
+    maxSpeed = speed;
 }
 
 Drivetrain drivetrain;

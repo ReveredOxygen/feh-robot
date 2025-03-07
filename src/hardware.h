@@ -29,6 +29,8 @@ extern AnalogInputPin leftOptosensor;
 extern AnalogInputPin centerOptosensor;
 extern AnalogInputPin rightOptosensor;
 
+extern AnalogInputPin cdsCell;
+
 inline float countsToDistance(int counts) {
     const float inchesPerCount =
         wheelCircumference / encoderCountsPerRevolution;

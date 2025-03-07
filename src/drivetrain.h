@@ -21,10 +21,17 @@ class Drivetrain {
 
     void resetDistances();
 
+    bool distanceInThreshold(float threshold);
+    bool rotationInThreshold(float threshold);
+
+    void setMaxSpeed(float speed);
+
    private:
     void selectMotors(Axis axis);
 
     float leftDist = 0, rightDist = 0, axialDist = 0;
+
+    float maxSpeed = 6;
 
     // Info for controlled driving
     float distanceDriven = 0;
