@@ -55,6 +55,7 @@ Menu* genMotorMenu() {
         .withOption("Rear", []() { Hardware::rearMotor.setSpeed(6); })
         ->withOption("Left", []() { Hardware::leftMotor.setSpeed(6); })
         ->withOption("Right", []() { Hardware::rightMotor.setSpeed(6); })
+        ->withOption("Fork", []() { Hardware::forkMotor.SetPercent(25); })
         ->build();
 }
 

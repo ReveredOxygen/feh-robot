@@ -16,6 +16,7 @@ const float wheelCircleRadius = 3.9375;
 extern FEHMotor rawRearMotor;
 extern FEHMotor rawLeftMotor;
 extern FEHMotor rawRightMotor;
+extern FEHMotor forkMotor;
 
 extern DigitalEncoder rearEncoder;
 extern DigitalEncoder leftEncoder;

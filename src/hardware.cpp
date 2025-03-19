@@ -8,6 +8,7 @@ namespace Hardware {
 FEHMotor rawRearMotor(FEHMotor::Motor1, 9.0);
 FEHMotor rawLeftMotor(FEHMotor::Motor3, 9.0);
 FEHMotor rawRightMotor(FEHMotor::Motor2, 9.0);
+FEHMotor forkMotor(FEHMotor::Motor0, 5.0);
 
 DigitalEncoder rearEncoder(FEHIO::P0_1);
 DigitalEncoder leftEncoder(FEHIO::P3_0);
