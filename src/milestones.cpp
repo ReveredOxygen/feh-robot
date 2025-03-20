@@ -1,5 +1,6 @@
 #include "milestones.h"
 
+#include <FEHBuzzer.h>
 #include <FEHUtility.h>
 
 #include "controller.h"
@@ -7,12 +8,12 @@
 #include "gui.h"
 #include "hardware.h"
 #include "logging.h"
-
 namespace milestones {
 
 void milestone1Part2();
 void milestone1Part3();
 void milestone2();
+void milestone3();
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -21,6 +22,7 @@ Menu* getMenu() {
                                         ->withOption("Part 3", milestone1Part3)
                                         ->build())
         ->withOption("Milestone 2", milestone2)
+        ->withOption("Milestone 3", milestone3)
         ->build();
 }
 
@@ -182,6 +184,125 @@ void milestone2() {
 
     drivetrain.stop();
     logger.log("Milestone 2 Done", "mile");
+}
+
+void milestone3() {
+    logger.log("Begin Milestone 3", "gui");
+    ui.openView(MainUI::LogView);
+
+    Buzzer.Beep();
+
+    while (Hardware::cdsCell.Value() > 2);
+    Sleep(1.);
+
+    drivetrain.setMaxSpeed(6);
+
+    drivetrain.rotateClockwiseDegrees(13);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Away from button
+    drivetrain.driveAxisDistance(Drivetrain::forward, -6, true);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Towards wall
+    drivetrain.driveAxisDistance(Drivetrain::forward, 4.5);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    drivetrain.rotateClockwiseDegrees(-115);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Drive up ramp
+    drivetrain.setMaxSpeed(14);
+    drivetrain.driveAxisDistance(Drivetrain::right, -37, true);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+    drivetrain.setMaxSpeed(6);
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Align with window
+    drivetrain.setMaxSpeed(6);
+    drivetrain.driveAxisDistance(Drivetrain::right, -13.5);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Spin to face window
+    drivetrain.rotateClockwiseDegrees(88);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Drive to window
+    drivetrain.setMaxSpeed(6);
+    drivetrain.driveAxisDistance(Drivetrain::right, 9);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Open window
+    drivetrain.setMaxSpeed(8);
+    drivetrain.driveAxisDistance(Drivetrain::right, 6, true);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Close window
+    drivetrain.setMaxSpeed(8);
+    drivetrain.driveAxisDistance(Drivetrain::right, -6, true);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    drivetrain.stop();
+    logger.log("Milestone 3 Done", "mile");
 }
 
 }   // namespace milestones
