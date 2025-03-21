@@ -8,7 +8,7 @@
 #include "gui.h"
 #include "logging.h"
 
-void activeSleep(float seconds) {
+bool activeSleep(float seconds) {
     float startTime = TimeNow();
     float currTime = TimeNow();
 
@@ -21,13 +21,13 @@ void activeSleep(float seconds) {
             logger.log("Stopping", "gui");
             drivetrain.stop();
             ui.openView(MainUI::MenuView);
-            return;
+            return false;
         }
 
         currTime = TimeNow();
     }
 
-    return;
+    return true;
 }
 
 bool tick() {
@@ -38,8 +38,24 @@ bool tick() {
         logger.log("Stopping", "gui");
         drivetrain.stop();
         ui.openView(MainUI::MenuView);
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
+}
+
+bool driveDistance(Drivetrain::Axis axis, float distance, bool strafe,
+                   float precision) {
+    drivetrain.driveAxisDistance(axis, distance, strafe);
+    while (!drivetrain.distanceInThreshold(precision)) {
+        Sleep(0.1);
+        if (!tick()) {
+            break;
+        };
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    return true;
 }

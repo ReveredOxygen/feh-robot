@@ -249,7 +249,7 @@ void milestone3() {
 
     // Align with window
     drivetrain.setMaxSpeed(6);
-    drivetrain.driveAxisDistance(Drivetrain::right, -13.5);
+    drivetrain.driveAxisDistance(Drivetrain::right, -11);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
@@ -281,7 +281,27 @@ void milestone3() {
 
     // Open window
     drivetrain.setMaxSpeed(8);
-    drivetrain.driveAxisDistance(Drivetrain::right, 6, true);
+    drivetrain.driveAxisDistance(Drivetrain::right, 8, true);
+    while (!drivetrain.distanceInThreshold(0.1)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Realign
+    drivetrain.setMaxSpeed(4);
+    drivetrain.rotateClockwiseDegrees(10);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    drivetrain.driveAxisDistance(Drivetrain::right, 2, false);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
@@ -292,7 +312,7 @@ void milestone3() {
 
     // Close window
     drivetrain.setMaxSpeed(8);
-    drivetrain.driveAxisDistance(Drivetrain::right, -6, true);
+    drivetrain.driveAxisDistance(Drivetrain::right, -8, true);
     while (!drivetrain.distanceInThreshold(0.1)) {
         Sleep(0.1);
         tick();
