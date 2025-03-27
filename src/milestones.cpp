@@ -14,6 +14,7 @@ void milestone1Part2();
 void milestone1Part3();
 void milestone2();
 void milestone3();
+void milestone4();
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -23,6 +24,7 @@ Menu* getMenu() {
                                         ->build())
         ->withOption("Milestone 2", milestone2)
         ->withOption("Milestone 3", milestone3)
+        ->withOption("Milestone 4", milestone4)
         ->build();
 }
 
@@ -323,6 +325,83 @@ void milestone3() {
 
     drivetrain.stop();
     logger.log("Milestone 3 Done", "mile");
+}
+
+void milestone4() {
+    logger.log("Begin Milestone 4", "gui");
+    ui.openView(MainUI::LogView);
+
+    drivetrain.setMaxSpeed(6);
+
+    // Declarations for analog optosensors
+    AnalogInputPin right_opto(FEHIO::P3_5);
+    AnalogInputPin middle_opto(FEHIO::P3_6);
+    AnalogInputPin left_opto(FEHIO::P3_7);
+
+    enum LineStates { MIDDLE, RIGHT, LEFT };
+
+    int state = MIDDLE;   // Set the initial state
+
+    while (true) {        // I will follow this line forever!
+
+        switch (state) {
+            // If I am in the middle of the line...
+            case MIDDLE:
+
+                // Set motor powers for driving straight
+                drivetrain.driveAxis(Drivetrain::left, 3);
+
+                if (right_opto.Value() < 3.0) {
+                    state = RIGHT;   // update a new state
+                }
+
+                if (left_opto.Value() < 3.0) {
+                    state = LEFT;   // update a new state
+                }
+
+                break;
+
+                // If the right sensor is on the line...
+            case RIGHT:
+                // Set motor powers for right turn
+
+                if (middle_opto.Value() > 3.0) {
+                    drivetrain.rotateClockwiseDegrees(15);
+                    drivetrain.driveAxis(Drivetrain::left, 2);
+
+                } else {
+                    drivetrain.rotateClockwiseDegrees(5);
+                    drivetrain.driveAxis(Drivetrain::left, 2);
+                }
+
+                if (right_opto.Value() > 3.0) {
+                    state = MIDDLE;
+                }
+                break;
+
+            // If the left sensor is on the line...
+            case LEFT:
+
+                if (middle_opto.Value() > 3.0) {
+                    drivetrain.rotateCounterClockwiseDegrees(15);
+                    drivetrain.driveAxis(Drivetrain::left, 2);
+
+                } else {
+                    drivetrain.rotateCounterClockwiseDegrees(5);
+                    drivetrain.driveAxis(Drivetrain::left, 2);
+                }
+
+                if (left_opto.Value() > 3.0) {
+                    state = MIDDLE;
+                }
+                break;
+
+            default:   // Error. Something is very wrong.
+                break;
+        }
+
+        // Sleep a bit
+    }
 }
 
 }   // namespace milestones
