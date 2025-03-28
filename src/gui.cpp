@@ -262,16 +262,16 @@ void MainUI::update() {
 
             needsRedraw |= tray.processClick(x, y);
             needsRedraw |= mainMenu->processClick(x, y);
-
-            if (logger.newMessages) {
-                logger.newMessages = false;
-                needsRedraw = true;
-            }
         }
 
         previouslyClicked = true;
     } else {
         previouslyClicked = false;
+    }
+
+    if (logger.newMessages) {
+        logger.newMessages = false;
+        needsRedraw = true;
     }
 }
 

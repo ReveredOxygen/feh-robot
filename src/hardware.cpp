@@ -11,7 +11,7 @@ FEHMotor rawRightMotor(FEHMotor::Motor2, 9.0);
 FEHMotor forkMotor(FEHMotor::Motor0, 5.0);
 
 DigitalEncoder rearEncoder(FEHIO::P0_1);
-DigitalEncoder leftEncoder(FEHIO::P3_0);
+DigitalEncoder leftEncoder(FEHIO::P0_2);
 DigitalEncoder rightEncoder(FEHIO::P0_0);
 
 ControlledMotor rearMotor("rear", rawRearMotor, rearEncoder);
@@ -23,6 +23,8 @@ AnalogInputPin centerOptosensor(FEHIO::P3_6);
 AnalogInputPin rightOptosensor(FEHIO::P3_5);
 
 AnalogInputPin cdsCell(FEHIO::P0_7);
+
+FEHServo arm(FEHServo::Servo0);
 
 const float wheelCircumference = M_PI * wheelDiameter;
 

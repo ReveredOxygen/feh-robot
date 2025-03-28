@@ -21,12 +21,17 @@ int main(void) {
     //     LCD.WriteRC(Hardware::centerOptosensor.Value(), 0, 0);
     // }
 
+    // Hardware::arm.TouchCalibrate();
+    Hardware::arm.SetMax(2440);
+    Hardware::arm.SetMin(540);
+
     ui.mainMenu =
         MenuBuilder()
             .withOption("View Logs", []() { ui.openView(MainUI::LogView); })
             ->withOption("Check Bat", []() {})
             ->withSubmenu("Milestones", milestones::getMenu())
             ->withSubmenu("Demos", demos::getMenu())
+            ->withOption("Arm", []() { Hardware::arm.SetDegree(20); })
             ->build();
 
     ui.openView(MainUI::MenuView);

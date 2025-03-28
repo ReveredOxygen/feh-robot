@@ -2,6 +2,7 @@
 
 #include <FEHIO.h>
 #include <FEHMotor.h>
+#include <FEHServo.h>
 
 #include "controlledMotor.h"
 
@@ -31,6 +32,8 @@ extern AnalogInputPin centerOptosensor;
 extern AnalogInputPin rightOptosensor;
 
 extern AnalogInputPin cdsCell;
+
+extern FEHServo arm;
 
 inline float countsToDistance(int counts) {
     const float inchesPerCount =

@@ -15,6 +15,7 @@ void milestone1Part3();
 void milestone2();
 void milestone3();
 void milestone4();
+void simpleMilestone4();
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -25,6 +26,7 @@ Menu* getMenu() {
         ->withOption("Milestone 2", milestone2)
         ->withOption("Milestone 3", milestone3)
         ->withOption("Milestone 4", milestone4)
+        ->withOption("EZ Milestone 4", simpleMilestone4)
         ->build();
 }
 
@@ -328,8 +330,10 @@ void milestone3() {
 }
 
 void milestone4() {
-    logger.log("Begin Milestone 4", "gui");
+    logger.log("Begin Normal Milestone 4", "gui");
     ui.openView(MainUI::LogView);
+
+    return;   // sorry kanav
 
     drivetrain.setMaxSpeed(6);
 
@@ -402,6 +406,88 @@ void milestone4() {
 
         // Sleep a bit
     }
+}
+
+void simpleMilestone4() {
+    logger.log("Begin Milestone 4", "gui");
+    ui.openView(MainUI::LogView);
+
+    Buzzer.Beep();
+
+    while (Hardware::cdsCell.Value() > 2);
+    Sleep(1.);
+
+    drivetrain.setMaxSpeed(6);
+
+    drivetrain.rotateClockwiseDegrees(13);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Away from button
+    driveDistance(Drivetrain::forward, -6, true);
+
+    drivetrain.rotateClockwiseDegrees(-54);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Towards bucket a bit
+    driveDistance(Drivetrain::left, 10);
+
+    // Align with stump
+    driveDistance(Drivetrain::left, 7.5, true);
+
+    // Prepare arm
+    Hardware::arm.SetDegree(20);
+
+    activeSleep(1.5);
+
+    // Hook it
+    driveDistance(Drivetrain::left, 6);
+
+    // Lift it
+    Hardware::arm.SetDegree(65);
+
+    // Retreat
+    driveDistance(Drivetrain::left, -8);
+
+    // Back off to get to ramp
+    driveDistance(Drivetrain::left, -6, true);
+
+    // Align with ramp
+    driveDistance(Drivetrain::left, -13);
+
+    drivetrain.rotateClockwiseDegrees(90);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    // Drive up ramp
+    drivetrain.setMaxSpeed(10);
+    driveDistance(Drivetrain::left, 40);
+    drivetrain.setMaxSpeed(6);
+
+    drivetrain.rotateClockwiseDegrees(20);
+    while (!drivetrain.rotationInThreshold(0.5)) {
+        Sleep(0.1);
+        tick();
+    }
+    drivetrain.stop();
+    activeSleep(0.5);
+
+    Hardware::arm.Off();
+
+    logger.log("End Milestone 4", "mile");
 }
 
 }   // namespace milestones
