@@ -1,4 +1,5 @@
 #include <FEHLCD.h>
+#include <FEHRCS.h>
 #include <FEHUtility.h>
 
 #include "demos.h"
@@ -16,12 +17,6 @@ void doSomething() {
 }
 
 int main(void) {
-    // while (true) {
-    //     Sleep(0.1);
-    //     LCD.WriteRC(Hardware::centerOptosensor.Value(), 0, 0);
-    // }
-
-    // Hardware::arm.TouchCalibrate();
     Hardware::arm.SetMax(2440);
     Hardware::arm.SetMin(540);
 
@@ -29,6 +24,7 @@ int main(void) {
         MenuBuilder()
             .withOption("View Logs", []() { ui.openView(MainUI::LogView); })
             ->withOption("Check Bat", []() {})
+            ->withOption("RCS", []() { RCS.InitializeTouchMenu("1020C1DXY"); })
             ->withSubmenu("Milestones", milestones::getMenu())
             ->withSubmenu("Demos", demos::getMenu())
             ->withOption("Arm", []() { Hardware::arm.SetDegree(20); })

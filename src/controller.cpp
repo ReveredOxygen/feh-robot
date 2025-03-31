@@ -13,7 +13,7 @@ bool activeSleep(float seconds) {
     float currTime = TimeNow();
 
     while (startTime + seconds > currTime) {
-        Sleep(std::min(0.1f, currTime - startTime + seconds));
+        Sleep(std::min(TICK_INTERVAL, currTime - startTime + seconds));
         drivetrain.update();
         ui.update();
 
@@ -48,7 +48,7 @@ bool driveDistance(Drivetrain::Axis axis, float distance, bool strafe,
                    float precision) {
     drivetrain.driveAxisDistance(axis, distance, strafe);
     while (!drivetrain.distanceInThreshold(precision)) {
-        Sleep(0.1);
+        Sleep(TICK_INTERVAL);
         if (!tick()) {
             break;
         };

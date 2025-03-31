@@ -421,7 +421,7 @@ void simpleMilestone4() {
 
     drivetrain.rotateClockwiseDegrees(13);
     while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(0.1);
+        Sleep(TICK_INTERVAL);
         tick();
     }
     drivetrain.stop();
@@ -432,7 +432,7 @@ void simpleMilestone4() {
 
     drivetrain.rotateClockwiseDegrees(-54);
     while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(0.1);
+        Sleep(TICK_INTERVAL);
         tick();
     }
     drivetrain.stop();
@@ -466,7 +466,7 @@ void simpleMilestone4() {
 
     drivetrain.rotateClockwiseDegrees(90);
     while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(0.1);
+        Sleep(TICK_INTERVAL);
         tick();
     }
     drivetrain.stop();
@@ -479,7 +479,7 @@ void simpleMilestone4() {
 
     drivetrain.rotateClockwiseDegrees(20);
     while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(0.1);
+        Sleep(TICK_INTERVAL);
         tick();
     }
     drivetrain.stop();
