@@ -59,3 +59,13 @@ bool driveDistance(Drivetrain::Axis axis, float distance, bool strafe,
 
     return true;
 }
+
+bool rotateClockwise(float degrees, float precision) {
+    drivetrain.rotateClockwiseDegrees(degrees);
+    while (!drivetrain.rotationInThreshold(precision)) {
+        Sleep(TICK_INTERVAL);
+        tick();
+    }
+    drivetrain.stop();
+    activeSleep(0.5);
+}

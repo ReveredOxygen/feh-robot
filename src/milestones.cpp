@@ -419,24 +419,12 @@ void simpleMilestone4() {
 
     drivetrain.setMaxSpeed(6);
 
-    drivetrain.rotateClockwiseDegrees(13);
-    while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(TICK_INTERVAL);
-        tick();
-    }
-    drivetrain.stop();
-    activeSleep(0.5);
+    rotateClockwise(13);
 
     // Away from button
     driveDistance(Drivetrain::forward, -6, true);
 
-    drivetrain.rotateClockwiseDegrees(-54);
-    while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(TICK_INTERVAL);
-        tick();
-    }
-    drivetrain.stop();
-    activeSleep(0.5);
+    rotateClockwise(-54);
 
     // Towards bucket a bit
     driveDistance(Drivetrain::left, 10);
@@ -464,26 +452,14 @@ void simpleMilestone4() {
     // Align with ramp
     driveDistance(Drivetrain::left, -13);
 
-    drivetrain.rotateClockwiseDegrees(90);
-    while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(TICK_INTERVAL);
-        tick();
-    }
-    drivetrain.stop();
-    activeSleep(0.5);
+    rotateClockwise(90);
 
     // Drive up ramp
     drivetrain.setMaxSpeed(10);
     driveDistance(Drivetrain::left, 40);
     drivetrain.setMaxSpeed(6);
 
-    drivetrain.rotateClockwiseDegrees(20);
-    while (!drivetrain.rotationInThreshold(0.5)) {
-        Sleep(TICK_INTERVAL);
-        tick();
-    }
-    drivetrain.stop();
-    activeSleep(0.5);
+    rotateClockwise(20);
 
     Hardware::arm.Off();
 
