@@ -2,6 +2,7 @@
 #include <FEHRCS.h>
 #include <FEHUtility.h>
 
+#include "controller.h"
 #include "demos.h"
 #include "drivetrain.h"
 #include "gui.h"
@@ -35,7 +36,7 @@ int main(void) {
     logger.log("Started gui", "gui");
 
     while (1) {
-        Sleep(0.1);
+        Sleep(TICK_INTERVAL);
         drivetrain.update();
 
         ui.update();
