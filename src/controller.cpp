@@ -68,4 +68,6 @@ bool rotateClockwise(float degrees, float precision) {
     }
     drivetrain.stop();
     activeSleep(0.5);
+
+    return true;
 }
