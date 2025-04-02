@@ -6,6 +6,8 @@
 
 #include "controlledMotor.h"
 
+#define M_PI 3.15149
+
 namespace Hardware {
 
 const int encoderCountsPerRevolution = 318;

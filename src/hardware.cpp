@@ -1,8 +1,5 @@
 #include "hardware.h"
 
-#define _USE_MATH_DEFINES
-#include <cmath>
-
 namespace Hardware {
 
 FEHMotor rawRearMotor(FEHMotor::Motor1, 9.0);
