@@ -16,6 +16,7 @@ void milestone2();
 void milestone3();
 void milestone4();
 void simpleMilestone4();
+void milestone5();
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -27,6 +28,7 @@ Menu* getMenu() {
         ->withOption("Milestone 3", milestone3)
         ->withOption("Milestone 4", milestone4)
         ->withOption("EZ Milestone 4", simpleMilestone4)
+        ->withOption("Milestone 5", milestone5)
         ->build();
 }
 
@@ -463,6 +465,45 @@ void simpleMilestone4() {
 
     Hardware::arm.Off();
 
+    logger.log("End Milestone 4", "mile");
+}
+
+void milestone5() {
+    logger.log("Begin Milestone 5", "gui");
+    ui.openView(MainUI::LogView);
+
+    Buzzer.Beep();
+
+    while (Hardware::cdsCell.Value() > 2);
+    Sleep(1.);
+
+    drivetrain.setMaxSpeed(6);
+
+    rotateClockwise(10 + 60);
+
+    // Away from button
+    driveDistance(Drivetrain::right, 6, false);
+
+    // Align
+    driveDistance(Drivetrain::right, -3, true);
+
+    // Mate with compost
+    driveDistance(Drivetrain::right, 6, false);
+
+    Hardware::forkMotor.SetPercent(25);
+    activeSleep(6);
+    Hardware::forkMotor.SetPercent(0);
+
+    activeSleep(2);
+
+    Hardware::forkMotor.SetPercent(-25);
+    activeSleep(6);
+    Hardware::forkMotor.SetPercent(0);
+
+    // Back to button
+    driveDistance(Drivetrain::right, -13, false);
+
+    Hardware::arm.Off();
     logger.log("End Milestone 4", "mile");
 }
 

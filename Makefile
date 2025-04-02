@@ -1,7 +1,7 @@
 TARGET = Proteus
 
 GITBINARY := git
-FEHURL := google.com
+FEHURL := google.com.nointernet
 FIRMWAREREPO := fehproteusfirmware
 
 ifeq ($(OS),Windows_NT)	
