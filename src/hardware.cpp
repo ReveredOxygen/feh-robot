@@ -11,7 +11,7 @@ FEHMotor rawRightMotor(FEHMotor::Motor2, 9.0);
 FEHMotor forkMotor(FEHMotor::Motor0, 5.0);
 
 DigitalEncoder rearEncoder(FEHIO::P0_1);
-DigitalEncoder leftEncoder(FEHIO::P0_2);
+DigitalEncoder leftEncoder(FEHIO::P3_0);
 DigitalEncoder rightEncoder(FEHIO::P0_0);
 
 ControlledMotor rearMotor("rear", rawRearMotor, rearEncoder);
