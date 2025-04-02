@@ -1,10 +1,8 @@
-#define _USE_MATH_DEFINES
 #include "drivetrain.h"
 
 #include <FEHMotor.h>
 
 #include <algorithm>
-#include <cmath>
 
 #include "hardware.h"
 #include "logging.h"
