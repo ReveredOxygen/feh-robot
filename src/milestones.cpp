@@ -335,8 +335,6 @@ void milestone4() {
     logger.log("Begin Normal Milestone 4", "gui");
     ui.openView(MainUI::LogView);
 
-    return;   // sorry kanav
-
     drivetrain.setMaxSpeed(6);
 
     // Declarations for analog optosensors
@@ -355,7 +353,7 @@ void milestone4() {
             case MIDDLE:
 
                 // Set motor powers for driving straight
-                drivetrain.driveAxis(Drivetrain::left, 3);
+                drivetrain.driveAxis(Drivetrain::left, 6);
 
                 if (right_opto.Value() < 3.0) {
                     state = RIGHT;   // update a new state
@@ -371,14 +369,8 @@ void milestone4() {
             case RIGHT:
                 // Set motor powers for right turn
 
-                if (middle_opto.Value() > 3.0) {
-                    drivetrain.rotateClockwiseDegrees(15);
-                    drivetrain.driveAxis(Drivetrain::left, 2);
-
-                } else {
-                    drivetrain.rotateClockwiseDegrees(5);
-                    drivetrain.driveAxis(Drivetrain::left, 2);
-                }
+                Hardware::rearMotor.setSpeed(-6);
+                Hardware::leftMotor.setSpeed(3);
 
                 if (right_opto.Value() > 3.0) {
                     state = MIDDLE;
@@ -388,14 +380,8 @@ void milestone4() {
             // If the left sensor is on the line...
             case LEFT:
 
-                if (middle_opto.Value() > 3.0) {
-                    drivetrain.rotateCounterClockwiseDegrees(15);
-                    drivetrain.driveAxis(Drivetrain::left, 2);
-
-                } else {
-                    drivetrain.rotateCounterClockwiseDegrees(5);
-                    drivetrain.driveAxis(Drivetrain::left, 2);
-                }
+                Hardware::rearMotor.setSpeed(3);
+                Hardware::leftMotor.setSpeed(-6);
 
                 if (left_opto.Value() > 3.0) {
                     state = MIDDLE;
@@ -407,6 +393,8 @@ void milestone4() {
         }
 
         // Sleep a bit
+        Sleep(TICK_INTERVAL);
+        tick();
     }
 }
 
