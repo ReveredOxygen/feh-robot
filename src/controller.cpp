@@ -77,9 +77,9 @@ bool onLine(char sensor) {
         case 'r':
             return Hardware::rightOptosensor.Value() < 2.9;
         case 'l':
-            return Hardware::rightOptosensor.Value() < 3.0;
+            return Hardware::leftOptosensor.Value() < 3.0;
         case 'c':
-            return Hardware::rightOptosensor.Value() < 3.0;
+            return Hardware::centerOptosensor.Value() < 3.0;
         default:
             logger.log("Invalid onLine sensor", "ctrl");
             return false;
