@@ -6,7 +6,7 @@
 
 #include "controlledMotor.h"
 
-#define M_PI 3.15149
+#define M_PI 3.14159265358979323846
 
 namespace Hardware {
 
