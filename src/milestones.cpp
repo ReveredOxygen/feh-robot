@@ -337,6 +337,8 @@ void milestone4() {
 
     drivetrain.setMaxSpeed(6);
 
+    float SPEED = 2;
+
     // Declarations for analog optosensors
     AnalogInputPin right_opto(FEHIO::P3_5);
     AnalogInputPin middle_opto(FEHIO::P3_6);
@@ -352,15 +354,26 @@ void milestone4() {
             // If I am in the middle of the line...
             case MIDDLE:
 
-                // Set motor powers for driving straight
-                drivetrain.driveAxis(Drivetrain::left, 6);
+                if (onLine('r')) {
+                    // state = RIGHT;   // update a new state
+                    // Buzzer.Buzz(100);
 
-                if (right_opto.Value() < 3.0) {
-                    state = RIGHT;   // update a new state
-                }
+                    // Set motor powers for right turn
+                    Hardware::rearMotor.setSpeed(-SPEED);
+                    // Hardware::leftMotor.setSpeed(SPEED / 2);
+                    Hardware::leftMotor.setSpeed(0);
+                } else if (onLine('l')) {
+                    // state = LEFT;   // update a new state
+                    // Buzzer.Buzz(200);
 
-                if (left_opto.Value() < 3.0) {
-                    state = LEFT;   // update a new state
+                    // Set motor powers for left turn
+                    Hardware::rearMotor.setSpeed(0);
+                    // Hardware::leftMotor.setSpeed(SPEED);
+                    Hardware::leftMotor.setSpeed(SPEED);
+                } else {
+                    // Set motor powers for driving straight
+                    Hardware::rearMotor.setSpeed(-SPEED);
+                    Hardware::leftMotor.setSpeed(SPEED);
                 }
 
                 break;
@@ -368,27 +381,31 @@ void milestone4() {
                 // If the right sensor is on the line...
             case RIGHT:
                 // Set motor powers for right turn
+                Hardware::rearMotor.setSpeed(-SPEED);
+                // Hardware::leftMotor.setSpeed(SPEED / 2);
+                Hardware::leftMotor.setSpeed(0);
 
-                Hardware::rearMotor.setSpeed(-6);
-                Hardware::leftMotor.setSpeed(3);
-
-                if (right_opto.Value() > 3.0) {
+                if (!onLine('r')) {
                     state = MIDDLE;
+                    Buzzer.Buzz(50);
                 }
                 break;
 
             // If the left sensor is on the line...
             case LEFT:
 
-                Hardware::rearMotor.setSpeed(3);
-                Hardware::leftMotor.setSpeed(-6);
+                Hardware::rearMotor.setSpeed(-SPEED / 2);
+                // Hardware::leftMotor.setSpeed(SPEED);
+                Hardware::leftMotor.setSpeed(0);
 
-                if (left_opto.Value() > 3.0) {
+                if (!onLine('l')) {
                     state = MIDDLE;
+                    Buzzer.Buzz(50);
                 }
                 break;
 
             default:   // Error. Something is very wrong.
+                logger.log("Illegal state!", "mile");
                 break;
         }
 
