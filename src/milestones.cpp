@@ -338,7 +338,9 @@ void milestone4() {
 
     drivetrain.setMaxSpeed(6);
 
-    lineFollow();
+    lineFollow(LINE_BLACK_OUTLINED);
+
+    lineFollow(LINE_BLACK_OUTLINED, true);
 
     drivetrain.stop();
     logger.log("End Normal Milestone 4", "gui");

@@ -73,22 +73,39 @@ bool rotateClockwise(float degrees, float precision) {
     return true;
 }
 
-bool onLine(char sensor) {
-    switch (sensor) {
-        case 'r':
-            return Hardware::rightOptosensor.Value() < 2.9;
-        case 'l':
-            return Hardware::leftOptosensor.Value() < 3.0;
-        case 'c':
-            return Hardware::centerOptosensor.Value() < 3.0;
+bool onLine(char sensor, LineType type) {
+    switch (type) {
+        case LINE_BLUE:
+            switch (sensor) {
+                case 'r':
+                    return Hardware::rightOptosensor.Value() < 2.9;
+                case 'l':
+                    return Hardware::leftOptosensor.Value() < 3.0;
+                case 'c':
+                    return Hardware::centerOptosensor.Value() < 3.0;
+                default:
+                    logger.log("Invalid onLine sensor", "ctrl", logging::Error);
+                    return false;
+            }
+        case LINE_BLACK_OUTLINED:
+            switch (sensor) {
+                case 'r':
+                    return Hardware::rightOptosensor.Value() > 3.0;
+                case 'l':
+                    return Hardware::leftOptosensor.Value() > 3.0;
+                case 'c':
+                    return Hardware::centerOptosensor.Value() > 3.0;
+                default:
+                    logger.log("Invalid onLine sensor", "ctrl", logging::Error);
+                    return false;
+            }
         default:
-            logger.log("Invalid onLine sensor", "ctrl");
-            return false;
+            return false;   // unreachable
     }
 }
 
-void lineFollow(float speed) {
-    logger.log("Begin line follow", "ctrl");
+void lineFollow(LineType type, bool reverse, float speed) {
+    logger.log("Begin line follow", "ctrl", logging::Debug);
     // Declarations for analog optosensors
     AnalogInputPin right_opto(FEHIO::P3_5);
     AnalogInputPin middle_opto(FEHIO::P3_6);
@@ -100,42 +117,46 @@ void lineFollow(float speed) {
     bool seenLine = false;
     bool lineFinish = false;
 
+    if (reverse) {
+        speed = -speed;
+    }
+
     while (!lineFinish) {   // Loop until we see the end of the line
-        bool left = onLine('l');
-        bool right = onLine('r');
-        bool center = onLine('c');
+        bool left = onLine('l', type);
+        bool right = onLine('r', type);
+        bool center = onLine('c', type);
 
         bool any = left || right || center;
 
-        // LCD.SetBackgroundColor(WHITE);
-        // LCD.SetFontColor(BLACK);
-        // if (left) {
-        //     LCD.WriteRC('L', 2, 3);
-        // } else {
-        //     LCD.WriteRC(' ', 2, 3);
-        // }
-        // if (center) {
-        //     LCD.WriteRC('C', 3, 3);
-        // } else {
-        //     LCD.WriteRC(' ', 3, 3);
-        // }
-        // if (right) {
-        //     LCD.WriteRC('R', 4, 3);
-        // } else {
-        //     LCD.WriteRC(' ', 4, 3);
-        // }
+        LCD.SetBackgroundColor(WHITE);
+        LCD.SetFontColor(BLACK);
+        if (left) {
+            LCD.WriteRC('L', 2, 3);
+        } else {
+            LCD.WriteRC(' ', 2, 3);
+        }
+        if (center) {
+            LCD.WriteRC('C', 3, 3);
+        } else {
+            LCD.WriteRC(' ', 3, 3);
+        }
+        if (right) {
+            LCD.WriteRC('R', 4, 3);
+        } else {
+            LCD.WriteRC(' ', 4, 3);
+        }
 
-        // if (seenLine) {
-        //     LCD.WriteRC('S', 3, 5);
-        // } else {
-        //     LCD.WriteRC(' ', 3, 5);
-        // }
+        if (seenLine) {
+            LCD.WriteRC('S', 3, 5);
+        } else {
+            LCD.WriteRC(' ', 3, 5);
+        }
 
-        // if (lineFinish) {
-        //     LCD.WriteRC('F', 3, 7);
-        // } else {
-        //     LCD.WriteRC(' ', 3, 7);
-        // }
+        if (lineFinish) {
+            LCD.WriteRC('F', 3, 7);
+        } else {
+            LCD.WriteRC(' ', 3, 7);
+        }
 
         switch (state) {
             // If I am in the middle of the line...
@@ -151,9 +172,9 @@ void lineFollow(float speed) {
                 }
 
                 if (right && !left) {
-                    state = RIGHT;
+                    state = reverse ? LEFT : RIGHT;
                 } else if (left && !right) {
-                    state = LEFT;
+                    state = reverse ? RIGHT : LEFT;
                 } else {   // Neither or both are on line
                     // Drive straight
                     Hardware::rearMotor.setSpeed(-speed);
@@ -167,7 +188,7 @@ void lineFollow(float speed) {
                 Hardware::rearMotor.setSpeed(-speed);
                 Hardware::leftMotor.setSpeed(-speed / 2);
 
-                if (!onLine('r')) {
+                if (!right) {
                     state = MIDDLE;
                 }
                 break;
@@ -177,13 +198,14 @@ void lineFollow(float speed) {
                 Hardware::rearMotor.setSpeed(speed / 2);
                 Hardware::leftMotor.setSpeed(speed);
 
-                if (!onLine('l')) {
+                if (!left) {
                     state = MIDDLE;
                 }
                 break;
 
             default:   // Error. Something is very wrong.
-                logger.log("Illegal line follow state!", "ctrl");
+                logger.log("Illegal line follow state!", "ctrl",
+                           logging::Error);
                 break;
         }
 
@@ -193,5 +215,5 @@ void lineFollow(float speed) {
     }
 
     drivetrain.stop();
-    logger.log("End line follow", "ctrl");
+    logger.log("End line follow", "ctrl", logging::Debug);
 }
