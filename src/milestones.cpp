@@ -1,6 +1,7 @@
 #include "milestones.h"
 
 #include <FEHBuzzer.h>
+#include <FEHLCD.h>
 #include <FEHUtility.h>
 
 #include "controller.h"
@@ -337,82 +338,11 @@ void milestone4() {
 
     drivetrain.setMaxSpeed(6);
 
-    float SPEED = 2;
+    lineFollow();
 
-    // Declarations for analog optosensors
-    AnalogInputPin right_opto(FEHIO::P3_5);
-    AnalogInputPin middle_opto(FEHIO::P3_6);
-    AnalogInputPin left_opto(FEHIO::P3_7);
-
-    enum LineStates { MIDDLE, RIGHT, LEFT };
-
-    int state = MIDDLE;   // Set the initial state
-
-    while (true) {        // I will follow this line forever!
-
-        switch (state) {
-            // If I am in the middle of the line...
-            case MIDDLE:
-
-                if (onLine('r')) {
-                    // state = RIGHT;   // update a new state
-                    // Buzzer.Buzz(100);
-
-                    // Set motor powers for right turn
-                    Hardware::rearMotor.setSpeed(-SPEED);
-                    // Hardware::leftMotor.setSpeed(SPEED / 2);
-                    Hardware::leftMotor.setSpeed(0);
-                } else if (onLine('l')) {
-                    // state = LEFT;   // update a new state
-                    // Buzzer.Buzz(200);
-
-                    // Set motor powers for left turn
-                    Hardware::rearMotor.setSpeed(0);
-                    // Hardware::leftMotor.setSpeed(SPEED);
-                    Hardware::leftMotor.setSpeed(SPEED);
-                } else {
-                    // Set motor powers for driving straight
-                    Hardware::rearMotor.setSpeed(-SPEED);
-                    Hardware::leftMotor.setSpeed(SPEED);
-                }
-
-                break;
-
-                // If the right sensor is on the line...
-            case RIGHT:
-                // Set motor powers for right turn
-                Hardware::rearMotor.setSpeed(-SPEED);
-                // Hardware::leftMotor.setSpeed(SPEED / 2);
-                Hardware::leftMotor.setSpeed(0);
-
-                if (!onLine('r')) {
-                    state = MIDDLE;
-                    Buzzer.Buzz(50);
-                }
-                break;
-
-            // If the left sensor is on the line...
-            case LEFT:
-
-                Hardware::rearMotor.setSpeed(-SPEED / 2);
-                // Hardware::leftMotor.setSpeed(SPEED);
-                Hardware::leftMotor.setSpeed(0);
-
-                if (!onLine('l')) {
-                    state = MIDDLE;
-                    Buzzer.Buzz(50);
-                }
-                break;
-
-            default:   // Error. Something is very wrong.
-                logger.log("Illegal state!", "mile");
-                break;
-        }
-
-        // Sleep a bit
-        Sleep(TICK_INTERVAL);
-        tick();
-    }
+    drivetrain.stop();
+    logger.log("End Normal Milestone 4", "gui");
+    return;
 }
 
 void simpleMilestone4() {
