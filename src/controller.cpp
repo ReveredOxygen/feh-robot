@@ -9,6 +9,8 @@
 #include "gui.h"
 #include "logging.h"
 
+float pauseTime = 0.5;
+
 bool activeSleep(float seconds) {
     float startTime = TimeNow();
     float currTime = TimeNow();
@@ -56,7 +58,7 @@ bool driveDistance(Drivetrain::Axis axis, float distance, bool strafe,
     }
 
     drivetrain.stop();
-    activeSleep(0.5);
+    activeSleep(pauseTime);
 
     return true;
 }
@@ -68,7 +70,7 @@ bool rotateClockwise(float degrees, float precision) {
         tick();
     }
     drivetrain.stop();
-    activeSleep(0.5);
+    activeSleep(pauseTime);
 
     return true;
 }
@@ -104,7 +106,7 @@ bool onLine(char sensor, LineType type) {
     }
 }
 
-void lineFollow(LineType type, bool reverse, float speed) {
+bool lineFollow(LineType type, bool reverse, float speed) {
     logger.log("Begin line follow", "ctrl", logging::Debug);
     // Declarations for analog optosensors
     AnalogInputPin right_opto(FEHIO::P3_5);
@@ -216,4 +218,5 @@ void lineFollow(LineType type, bool reverse, float speed) {
 
     drivetrain.stop();
     logger.log("End line follow", "ctrl", logging::Debug);
+    return true;
 }

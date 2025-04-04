@@ -9,6 +9,11 @@
 #include "gui.h"
 #include "hardware.h"
 #include "logging.h"
+
+#define CHECK(x)           \
+    if (!(x)) [[unlikely]] \
+    goto end
+
 namespace milestones {
 
 void milestone1Part2();
@@ -18,6 +23,7 @@ void milestone3();
 void milestone4();
 void simpleMilestone4();
 void milestone5();
+void showcase();
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -30,6 +36,8 @@ Menu* getMenu() {
         ->withOption("Milestone 4", milestone4)
         ->withOption("EZ Milestone 4", simpleMilestone4)
         ->withOption("Milestone 5", milestone5)
+        ->withSubmenu("Showcase",
+                      MenuBuilder().withOption("Confirm", showcase)->build())
         ->build();
 }
 
@@ -442,6 +450,71 @@ void milestone5() {
 
     Hardware::arm.Off();
     logger.log("End Milestone 4", "mile");
+}
+
+void showcase() {
+    logger.log("Begin showcase", "gui");
+    ui.openView(MainUI::LogView);
+
+    drivetrain.setMaxSpeed(6);
+
+    Buzzer.Beep();
+
+    while (Hardware::cdsCell.Value() > 2);
+    // Sleep(3.);
+
+    pauseTime = 0;
+
+    CHECK(driveDistance(Drivetrain::left, 1, true));
+
+    pauseTime = 0.5;
+
+    CHECK(driveDistance(Drivetrain::left, -1.5, false));
+
+    CHECK(driveDistance(Drivetrain::left, 1.5, false));
+
+    //
+    // Compost bin
+    //
+
+    CHECK(rotateClockwise(5 + 60));
+
+    // Away from button
+    CHECK(driveDistance(Drivetrain::right, 6, false));
+
+    // Align
+    CHECK(driveDistance(Drivetrain::right, -3, true));
+
+    // Mate with compost
+    CHECK(driveDistance(Drivetrain::right, 6, false));
+
+    Hardware::forkMotor.SetPercent(50);
+    CHECK(activeSleep(3));
+    Hardware::forkMotor.SetPercent(0);
+
+    CHECK(activeSleep(pauseTime));
+
+    Hardware::forkMotor.SetPercent(-50);
+    CHECK(activeSleep(3));
+    Hardware::forkMotor.SetPercent(0);
+
+    //
+    // Collect apple bucket
+    //
+
+    // Detach from compost
+    CHECK(driveDistance(Drivetrain::right, -3, false));
+
+    drivetrain.stop();
+    Hardware::arm.Off();
+    logger.log("End showcase", "mile");
+    return;
+
+end:
+    drivetrain.stop();
+    Hardware::arm.Off();
+    logger.log("STOPPING SHOWCASE EARLY", "mile");
+    return;
 }
 
 }   // namespace milestones

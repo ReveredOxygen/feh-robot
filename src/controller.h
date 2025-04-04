@@ -12,7 +12,9 @@ enum LineType { LINE_BLUE, LINE_BLACK_OUTLINED };
 
 bool onLine(char sensor, LineType type);
 
-void lineFollow(LineType type, bool reverse = false, float speed = 2);
+bool lineFollow(LineType type, bool reverse = false, float speed = 2);
+
+extern float pauseTime;
 
 // approx 33.5 ms
 const float TICK_INTERVAL = (1. / 3.) / (318 / (2 * 2 * 2 * 2 * 2));
