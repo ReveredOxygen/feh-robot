@@ -28,7 +28,11 @@ int main(void) {
             ->withOption("RCS", []() { RCS.InitializeTouchMenu("1020C1DXY"); })
             ->withSubmenu("Milestones", milestones::getMenu())
             ->withSubmenu("Demos", demos::getMenu())
-            ->withOption("Arm", []() { Hardware::arm.SetDegree(20); })
+            ->withOption(
+                "Arm",
+                []() {
+                    Hardware::arm.SetDegree(Hardware::APPLE_GRAB_ROTATION);
+                })
             ->build();
 
     ui.openView(MainUI::MenuView);

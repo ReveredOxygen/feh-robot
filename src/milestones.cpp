@@ -469,9 +469,9 @@ void showcase() {
 
     pauseTime = 0.5;
 
-    CHECK(driveDistance(Drivetrain::left, -1.5, false));
+    CHECK(driveDistance(Drivetrain::left, -2, false));
 
-    CHECK(driveDistance(Drivetrain::left, 1.5, false));
+    CHECK(driveDistance(Drivetrain::left, 2, false));
 
     //
     // Compost bin
@@ -482,7 +482,7 @@ void showcase() {
     // Away from button
     CHECK(driveDistance(Drivetrain::right, 6, false));
 
-    // Align
+    // Align with compost
     CHECK(driveDistance(Drivetrain::right, -3, true));
 
     // Mate with compost
@@ -504,6 +504,32 @@ void showcase() {
 
     // Detach from compost
     CHECK(driveDistance(Drivetrain::right, -3, false));
+
+    // Align with stump
+    CHECK(driveDistance(Drivetrain::right, 16, true));
+
+    // Rotate to face stump
+    CHECK(rotateClockwise(-112));
+
+    // Drive to get to the line
+    CHECK(driveDistance(Drivetrain::left, 3, false));
+
+    // Align with the line
+    CHECK(lineFollow(LINE_BLACK_OUTLINED));
+
+    // Back up keeping alignment
+    CHECK(lineFollow(LINE_BLACK_OUTLINED, true));
+
+    // Prepare arm
+    Hardware::arm.SetDegree(Hardware::APPLE_GRAB_ROTATION);
+    activeSleep(1.5);
+
+    // Drive into apples
+    CHECK(driveDistance(Drivetrain::left, 3, false));
+
+    // Lift apples
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION);
+    activeSleep(1.5);
 
     drivetrain.stop();
     Hardware::arm.Off();
