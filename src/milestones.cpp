@@ -483,7 +483,7 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::right, 6, false));
 
     // Align with compost
-    CHECK(driveDistance(Drivetrain::right, -3, true));
+    CHECK(driveDistance(Drivetrain::right, -3.2, true));
 
     // Mate with compost
     CHECK(driveDistance(Drivetrain::right, 6, false));
@@ -512,7 +512,7 @@ void showcase() {
     CHECK(rotateClockwise(-112));
 
     // Drive to get to the line
-    CHECK(driveDistance(Drivetrain::left, 3, false));
+    CHECK(driveDistance(Drivetrain::left, 5, false));
 
     // Align with the line
     CHECK(lineFollow(LINE_BLACK_OUTLINED));
@@ -522,14 +522,32 @@ void showcase() {
 
     // Prepare arm
     Hardware::arm.SetDegree(Hardware::APPLE_GRAB_ROTATION);
-    activeSleep(1.5);
+    CHECK(activeSleep(1.5));
 
     // Drive into apples
     CHECK(driveDistance(Drivetrain::left, 3, false));
 
     // Lift apples
     Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION);
-    activeSleep(1.5);
+    CHECK(activeSleep(1.5));
+
+    // Retreat
+    driveDistance(Drivetrain::left, -8);
+
+    // Back off to get to ramp
+    driveDistance(Drivetrain::left, -6, true);
+
+    // Align with ramp
+    driveDistance(Drivetrain::left, -11);
+
+    rotateClockwise(90);
+
+    // Drive up ramp
+    drivetrain.setMaxSpeed(16);
+    driveDistance(Drivetrain::left, 40);
+    drivetrain.setMaxSpeed(6);
+
+    rotateClockwise(20);
 
     drivetrain.stop();
     Hardware::arm.Off();

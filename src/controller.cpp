@@ -113,6 +113,8 @@ bool lineFollow(LineType type, bool reverse, float speed) {
     AnalogInputPin middle_opto(FEHIO::P3_6);
     AnalogInputPin left_opto(FEHIO::P3_7);
 
+    double startTime = TimeNow();
+
     enum LineState { MIDDLE, RIGHT, LEFT };
 
     LineState state = MIDDLE;   // Set the initial state
@@ -167,7 +169,7 @@ bool lineFollow(LineType type, bool reverse, float speed) {
                     if (!seenLine) {
                         seenLine = true;
                     }
-                } else if (seenLine) {
+                } else if (seenLine && TimeNow() > startTime + 1) {
                     // If we've seen the line before (and aren't anymore), note
                     // that we've finished the line
                     lineFinish = true;
@@ -188,7 +190,7 @@ bool lineFollow(LineType type, bool reverse, float speed) {
             // If the right sensor is on the line...
             case RIGHT:
                 Hardware::rearMotor.setSpeed(-speed);
-                Hardware::leftMotor.setSpeed(-speed / 2);
+                Hardware::leftMotor.setSpeed(speed / 3);
 
                 if (!right) {
                     state = MIDDLE;
@@ -197,7 +199,7 @@ bool lineFollow(LineType type, bool reverse, float speed) {
 
             // If the left sensor is on the line...
             case LEFT:
-                Hardware::rearMotor.setSpeed(speed / 2);
+                Hardware::rearMotor.setSpeed(-speed / 3);
                 Hardware::leftMotor.setSpeed(speed);
 
                 if (!left) {
