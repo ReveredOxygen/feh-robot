@@ -78,31 +78,45 @@ bool rotateClockwise(float degrees, float precision) {
 bool onLine(char sensor, LineType type) {
     switch (type) {
         case LINE_BLUE:
+            LCD.WriteRC('U', 7, 9);
             switch (sensor) {
                 case 'r':
-                    return Hardware::rightOptosensor.Value() < 2.9;
+                    return Hardware::rightOptosensor.Value() < 2.87;
+                    break;
                 case 'l':
-                    return Hardware::leftOptosensor.Value() < 3.0;
+                    return Hardware::leftOptosensor.Value() < 2.95;
+                    break;
                 case 'c':
-                    return Hardware::centerOptosensor.Value() < 3.0;
+                    return Hardware::centerOptosensor.Value() < 2.99;
+                    break;
                 default:
                     logger.log("Invalid onLine sensor", "ctrl", logging::Error);
                     return false;
+                    break;
             }
+            break;
+            logger.log("Fall through??", "ctrl", logging::Error);
         case LINE_BLACK_OUTLINED:
+            LCD.WriteRC('B', 7, 9);
             switch (sensor) {
                 case 'r':
                     return Hardware::rightOptosensor.Value() > 3.0;
+                    break;
                 case 'l':
                     return Hardware::leftOptosensor.Value() > 3.0;
+                    break;
                 case 'c':
                     return Hardware::centerOptosensor.Value() > 3.0;
+                    break;
                 default:
                     logger.log("Invalid onLine sensor", "ctrl", logging::Error);
                     return false;
+                    break;
             }
+            break;
         default:
             return false;   // unreachable
+            break;
     }
 }
 
