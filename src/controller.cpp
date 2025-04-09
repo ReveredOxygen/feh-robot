@@ -106,7 +106,7 @@ bool onLine(char sensor, LineType type) {
     }
 }
 
-bool lineFollow(LineType type, bool reverse, float speed) {
+bool lineFollow(LineType type, bool reverse, float minTime) {
     logger.log("Begin line follow", "ctrl", logging::Debug);
     // Declarations for analog optosensors
     AnalogInputPin right_opto(FEHIO::P3_5);
@@ -120,6 +120,8 @@ bool lineFollow(LineType type, bool reverse, float speed) {
     LineState state = MIDDLE;   // Set the initial state
     bool seenLine = false;
     bool lineFinish = false;
+
+    float speed = 2;
 
     if (reverse) {
         speed = -speed;
@@ -169,7 +171,7 @@ bool lineFollow(LineType type, bool reverse, float speed) {
                     if (!seenLine) {
                         seenLine = true;
                     }
-                } else if (seenLine && TimeNow() > startTime + 1) {
+                } else if (seenLine && TimeNow() > startTime + minTime) {
                     // If we've seen the line before (and aren't anymore), note
                     // that we've finished the line
                     lineFinish = true;

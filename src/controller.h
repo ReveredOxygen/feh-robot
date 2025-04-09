@@ -12,7 +12,7 @@ enum LineType { LINE_BLUE, LINE_BLACK_OUTLINED };
 
 bool onLine(char sensor, LineType type);
 
-bool lineFollow(LineType type, bool reverse = false, float speed = 2);
+bool lineFollow(LineType type, bool reverse = false, float minTime = 0);
 
 extern float pauseTime;
 

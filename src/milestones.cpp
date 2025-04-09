@@ -24,6 +24,7 @@ void milestone4();
 void simpleMilestone4();
 void milestone5();
 void showcase();
+void showcase2();
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -33,11 +34,12 @@ Menu* getMenu() {
                                         ->build())
         ->withOption("Milestone 2", milestone2)
         ->withOption("Milestone 3", milestone3)
-        ->withOption("Milestone 4", milestone4)
+        // ->withOption("Milestone 4", milestone4)
         ->withOption("EZ Milestone 4", simpleMilestone4)
         ->withOption("Milestone 5", milestone5)
         ->withSubmenu("Showcase",
                       MenuBuilder().withOption("Confirm", showcase)->build())
+        ->withOption("Showcase 2", showcase2)
         ->build();
 }
 
@@ -515,10 +517,10 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::left, 5, false));
 
     // Align with the line
-    CHECK(lineFollow(LINE_BLACK_OUTLINED));
+    CHECK(lineFollow(LINE_BLACK_OUTLINED, false, 0));
 
     // Back up keeping alignment
-    CHECK(lineFollow(LINE_BLACK_OUTLINED, true));
+    CHECK(lineFollow(LINE_BLACK_OUTLINED, true, 1.5));
 
     // Prepare arm
     Hardware::arm.SetDegree(Hardware::APPLE_GRAB_ROTATION);
@@ -532,22 +534,56 @@ void showcase() {
     CHECK(activeSleep(1.5));
 
     // Retreat
-    driveDistance(Drivetrain::left, -8);
+    CHECK(driveDistance(Drivetrain::left, -8));
 
     // Back off to get to ramp
-    driveDistance(Drivetrain::left, -6, true);
+    CHECK(driveDistance(Drivetrain::left, -6, true));
 
     // Align with ramp
-    driveDistance(Drivetrain::left, -11);
+    CHECK(driveDistance(Drivetrain::left, -11));
 
-    rotateClockwise(90);
+    CHECK(rotateClockwise(90));
 
     // Drive up ramp
     drivetrain.setMaxSpeed(16);
-    driveDistance(Drivetrain::left, 40);
+    CHECK(driveDistance(Drivetrain::left, 42));
     drivetrain.setMaxSpeed(6);
 
-    rotateClockwise(20);
+    // Rotate to get arm above table
+    CHECK(rotateClockwise(45));
+
+    // Let it down
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
+    CHECK(activeSleep(0.5));
+    Hardware::arm.Off();
+    CHECK(activeSleep(1.5));
+
+    // Pull back to unhook apples
+    CHECK(driveDistance(Drivetrain::left, -6));
+
+    drivetrain.stop();
+    Hardware::arm.Off();
+    logger.log("End showcase", "mile");
+    return;
+
+end:
+    drivetrain.stop();
+    Hardware::arm.Off();
+    logger.log("STOPPING SHOWCASE EARLY", "mile");
+    return;
+}
+
+void showcase2() {
+    logger.log("Begin showcase", "gui");
+    ui.openView(MainUI::LogView);
+    drivetrain.setMaxSpeed(6);
+    Buzzer.Beep();
+
+    // Align with the line
+    CHECK(lineFollow(LINE_BLUE, false, 0));
+
+    // Back up keeping alignment
+    CHECK(lineFollow(LINE_BLUE, true, 1.5));
 
     drivetrain.stop();
     Hardware::arm.Off();
