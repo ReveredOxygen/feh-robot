@@ -10,9 +10,9 @@
 #include "hardware.h"
 #include "logging.h"
 
-#define CHECK(x)           \
-    if (!(x)) [[unlikely]] \
-    goto end
+#define CHECK(x) \
+    x   // if (!(x)) [[unlikely]] \
+    // goto end
 
 namespace milestones {
 
@@ -580,10 +580,61 @@ void showcase2() {
     Buzzer.Beep();
 
     // Align with the line
-    CHECK(lineFollow(LINE_BLUE, false, 0));
+    CHECK(lineFollow(LINE_BLUE, false, 0.5));
 
     // Back up keeping alignment
-    CHECK(lineFollow(LINE_BLUE, true, 1.5));
+    CHECK(lineFollow(LINE_BLUE, true, 1));
+
+    drivetrain.setMaxSpeed(6);
+
+    CHECK(rotateClockwise(15));
+
+    // Drive down to light
+    CHECK(driveDistance(Drivetrain::forward, 3.25, true));
+
+    // Drive over to light
+    CHECK(driveDistance(Drivetrain::forward, -3.5, false));
+
+    float light = multiSample(Hardware::cdsCell);
+    logger.log(vformat("light %f", light), "gui");
+
+    if (light > 0.7) {
+        // Assume the light is blue
+        logger.log("BLUE", "mile");
+        CHECK(driveDistance(Drivetrain::forward, 1.75, true));
+
+        // Ram the button
+        CHECK(driveDistance(Drivetrain::forward, -6, false));
+
+        // Align with window
+        CHECK(driveDistance(Drivetrain::forward, 7, false));
+
+        CHECK(rotateClockwise(-30));
+
+        // Mate with window
+        CHECK(driveDistance(Drivetrain::right, 9 - 1.75, false));
+    } else {
+        // Light is def red
+        logger.log("RED", "mile");
+        CHECK(driveDistance(Drivetrain::forward, -2.25, true));
+
+        // Ram the button
+        CHECK(driveDistance(Drivetrain::forward, -6, false));
+
+        // Align with window
+        CHECK(driveDistance(Drivetrain::forward, 7, false));
+
+        CHECK(rotateClockwise(-30));
+
+        // Mate with window
+        CHECK(driveDistance(Drivetrain::right, 9 + 2.25, false));
+    }
+
+    // Open window
+    CHECK(driveDistance(Drivetrain::right, 8, true));
+
+    // Close window
+    CHECK(driveDistance(Drivetrain::right, -8, true));
 
     drivetrain.stop();
     Hardware::arm.Off();

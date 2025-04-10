@@ -75,19 +75,29 @@ bool rotateClockwise(float degrees, float precision) {
     return true;
 }
 
+float multiSample(AnalogInputPin pin, int samples) {
+    float acc = 0;
+
+    for (int i = 0; i < samples; i++) {
+        acc += pin.Value();
+    }
+
+    return acc / samples;
+}
+
 bool onLine(char sensor, LineType type) {
     switch (type) {
         case LINE_BLUE:
-            LCD.WriteRC('U', 7, 9);
+            // LCD.WriteRC('U', 7, 9);
             switch (sensor) {
                 case 'r':
-                    return Hardware::rightOptosensor.Value() < 2.87;
+                    return multiSample(Hardware::rightOptosensor) < 2.87;
                     break;
                 case 'l':
-                    return Hardware::leftOptosensor.Value() < 2.95;
+                    return multiSample(Hardware::leftOptosensor) < 2.95;
                     break;
                 case 'c':
-                    return Hardware::centerOptosensor.Value() < 2.99;
+                    return multiSample(Hardware::centerOptosensor) < 2.99;
                     break;
                 default:
                     logger.log("Invalid onLine sensor", "ctrl", logging::Error);
@@ -97,7 +107,7 @@ bool onLine(char sensor, LineType type) {
             break;
             logger.log("Fall through??", "ctrl", logging::Error);
         case LINE_BLACK_OUTLINED:
-            LCD.WriteRC('B', 7, 9);
+            // LCD.WriteRC('B', 7, 9);
             switch (sensor) {
                 case 'r':
                     return Hardware::rightOptosensor.Value() > 3.0;

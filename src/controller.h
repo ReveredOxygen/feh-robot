@@ -14,6 +14,8 @@ bool onLine(char sensor, LineType type);
 
 bool lineFollow(LineType type, bool reverse = false, float minTime = 0);
 
+float multiSample(AnalogInputPin pin, int samples = 5);
+
 extern float pauseTime;
 
 // approx 33.5 ms
