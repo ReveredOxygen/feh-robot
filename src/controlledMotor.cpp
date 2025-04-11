@@ -1,5 +1,6 @@
 #include "controlledMotor.h"
 
+#include <FEHBattery.h>
 #include <FEHUtility.h>
 
 #include <algorithm>
@@ -10,8 +11,12 @@
 
 using namespace std;
 
+float batPct(float raw) {
+    return raw * 11.5 / Battery.Voltage();
+}
+
 float speedToPercent(float speed) {
-    return 3 * speed;
+    return batPct(3 * speed);
 }
 
 ControlledMotor::ControlledMotor(std::string name, FEHMotor motor,

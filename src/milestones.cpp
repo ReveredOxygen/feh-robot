@@ -1,7 +1,9 @@
 #include "milestones.h"
 
+#include <FEHBattery.h>
 #include <FEHBuzzer.h>
 #include <FEHLCD.h>
+#include <FEHRCS.h>
 #include <FEHUtility.h>
 
 #include "controller.h"
@@ -24,7 +26,11 @@ void milestone4();
 void simpleMilestone4();
 void milestone5();
 void showcase();
-void showcase2();
+void showcase2(bool);
+
+float batPct(float raw) {
+    return raw * 11.5 / Battery.Voltage();
+}
 
 Menu* getMenu() {
     return MenuBuilder()
@@ -35,11 +41,23 @@ Menu* getMenu() {
         ->withOption("Milestone 2", milestone2)
         ->withOption("Milestone 3", milestone3)
         // ->withOption("Milestone 4", milestone4)
-        ->withOption("EZ Milestone 4", simpleMilestone4)
-        ->withOption("Milestone 5", milestone5)
+        ->withOption("hi",
+                     []() {
+                         while (true) {
+                             CHECK(driveDistance(Drivetrain::left, 3, true));
+                             CHECK(driveDistance(Drivetrain::right, 4, false));
+                             CHECK(driveDistance(Drivetrain::right, -4, true));
+                         }
+                     })
+        ->withOption("rotate",
+                     []() {
+                         Hardware::forkMotor.SetPercent(batPct(70));
+                         CHECK(activeSleep(0.24));
+                         Hardware::forkMotor.SetPercent(0);
+                     })
         ->withSubmenu("Showcase",
                       MenuBuilder().withOption("Confirm", showcase)->build())
-        ->withOption("Showcase 2", showcase2)
+        ->withOption("Showcase 2", []() { showcase2(true); })
         ->build();
 }
 
@@ -455,6 +473,8 @@ void milestone5() {
 }
 
 void showcase() {
+    // RCS.InitializeTouchMenu("1020C1DXY");
+
     logger.log("Begin showcase", "gui");
     ui.openView(MainUI::LogView);
 
@@ -475,28 +495,31 @@ void showcase() {
 
     CHECK(driveDistance(Drivetrain::left, 2, false));
 
+    Hardware::arm.SetDegree(180);
+    CHECK(activeSleep(1.5));
+
     //
     // Compost bin
     //
 
-    CHECK(rotateClockwise(5 + 60));
+    CHECK(rotateClockwise(10 + 60));
 
     // Away from button
     CHECK(driveDistance(Drivetrain::right, 6, false));
 
     // Align with compost
-    CHECK(driveDistance(Drivetrain::right, -3.2, true));
+    CHECK(driveDistance(Drivetrain::right, -3.4, true));
 
     // Mate with compost
     CHECK(driveDistance(Drivetrain::right, 6, false));
 
-    Hardware::forkMotor.SetPercent(50);
+    Hardware::forkMotor.SetPercent(batPct(70));
     CHECK(activeSleep(3));
-    Hardware::forkMotor.SetPercent(0);
+    // Hardware::forkMotor.SetPercent(0);
 
-    CHECK(activeSleep(pauseTime));
+    // CHECK(activeSleep(pauseTime));
 
-    Hardware::forkMotor.SetPercent(-50);
+    Hardware::forkMotor.SetPercent(batPct(-70));
     CHECK(activeSleep(3));
     Hardware::forkMotor.SetPercent(0);
 
@@ -514,7 +537,7 @@ void showcase() {
     CHECK(rotateClockwise(-112));
 
     // Drive to get to the line
-    CHECK(driveDistance(Drivetrain::left, 5, false));
+    CHECK(driveDistance(Drivetrain::left, 5.5, false));
 
     // Align with the line
     CHECK(lineFollow(LINE_BLACK_OUTLINED, false, 0));
@@ -542,24 +565,81 @@ void showcase() {
     // Align with ramp
     CHECK(driveDistance(Drivetrain::left, -11));
 
-    CHECK(rotateClockwise(90));
+    CHECK(rotateClockwise(100));
 
     // Drive up ramp
-    drivetrain.setMaxSpeed(16);
-    CHECK(driveDistance(Drivetrain::left, 42));
+    drivetrain.setMaxSpeed(10);
+    CHECK(driveDistance(Drivetrain::left, 48));
     drivetrain.setMaxSpeed(6);
 
     // Rotate to get arm above table
-    CHECK(rotateClockwise(45));
+    // CHECK(rotateClockwise(45));
 
     // Let it down
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 26);
+    // Hardware::arm.SetDegree(180);
+
+    drivetrain.setMaxSpeed(12);
+    pauseTime = 0;
+    // Go forward and back in an attempt to knock apples over
+    CHECK(driveDistance(Drivetrain::left, -2));
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    CHECK(driveDistance(Drivetrain::left, 2));
     Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
-    CHECK(activeSleep(0.5));
-    Hardware::arm.Off();
-    CHECK(activeSleep(1.5));
+    CHECK(driveDistance(Drivetrain::left, -2));
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    CHECK(driveDistance(Drivetrain::left, 2));
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
 
     // Pull back to unhook apples
+    CHECK(driveDistance(Drivetrain::left, -8));
+
+    pauseTime = 0.5;
+    drivetrain.setMaxSpeed(6);
+
+    // Just put the apples on the ground
+    CHECK(driveDistance(Drivetrain::left, 6));
+    Hardware::arm.SetDegree(0);
+    CHECK(activeSleep(1));
     CHECK(driveDistance(Drivetrain::left, -6));
+
+    // Drive over to the levers
+    CHECK(driveDistance(Drivetrain::left, -8, true));
+    Hardware::arm.SetDegree(180);
+    CHECK(driveDistance(Drivetrain::left, 12, false));
+
+    CHECK(rotateClockwise(-55));
+
+    CHECK(driveDistance(Drivetrain::left, -9, true));
+    CHECK(driveDistance(Drivetrain::left, 4, false));
+
+    // Align with the line
+    CHECK(lineFollow(LINE_BLUE, false, 0.5));
+
+    // Back up keeping alignment
+    CHECK(lineFollow(LINE_BLUE, true, 1));
+
+    Hardware::arm.SetDegree(0);
+
+    Hardware::forkMotor.SetPercent(batPct(70));
+    CHECK(activeSleep(0.24));
+    Hardware::forkMotor.SetPercent(0);
+
+    showcase2(false);
+
+    CHECK(driveDistance(Drivetrain::right, -6, false));
+
+    CHECK(driveDistance(Drivetrain::right, -30, true));
+
+    CHECK(driveDistance(Drivetrain::right, 45, false));
+
+    CHECK(driveDistance(Drivetrain::right, -12, true));
+
+    while (true) {
+        CHECK(driveDistance(Drivetrain::forward, 3, false));
+        CHECK(driveDistance(Drivetrain::right, 4, false));
+        CHECK(driveDistance(Drivetrain::right, -4, true));
+    }
 
     drivetrain.stop();
     Hardware::arm.Off();
@@ -573,17 +653,19 @@ end:
     return;
 }
 
-void showcase2() {
-    logger.log("Begin showcase", "gui");
+void showcase2(bool follow) {
+    logger.log("Begin showcase 2", "gui");
     ui.openView(MainUI::LogView);
     drivetrain.setMaxSpeed(6);
     Buzzer.Beep();
 
-    // Align with the line
-    CHECK(lineFollow(LINE_BLUE, false, 0.5));
+    if (follow) {
+        // Align with the line
+        CHECK(lineFollow(LINE_BLUE, false, 0.5));
 
-    // Back up keeping alignment
-    CHECK(lineFollow(LINE_BLUE, true, 1));
+        // Back up keeping alignment
+        CHECK(lineFollow(LINE_BLUE, true, 1));
+    }
 
     drivetrain.setMaxSpeed(6);
 
@@ -609,14 +691,14 @@ void showcase2() {
         // Align with window
         CHECK(driveDistance(Drivetrain::forward, 7, false));
 
-        CHECK(rotateClockwise(-30));
+        CHECK(rotateClockwise(-25));
 
         // Mate with window
-        CHECK(driveDistance(Drivetrain::right, 9 - 1.75, false));
+        CHECK(driveDistance(Drivetrain::right, 12 - 1.75, false));
     } else {
         // Light is def red
         logger.log("RED", "mile");
-        CHECK(driveDistance(Drivetrain::forward, -2.25, true));
+        CHECK(driveDistance(Drivetrain::forward, -2.5, true));
 
         // Ram the button
         CHECK(driveDistance(Drivetrain::forward, -6, false));
@@ -624,21 +706,25 @@ void showcase2() {
         // Align with window
         CHECK(driveDistance(Drivetrain::forward, 7, false));
 
-        CHECK(rotateClockwise(-30));
+        CHECK(rotateClockwise(-25));
 
         // Mate with window
-        CHECK(driveDistance(Drivetrain::right, 9 + 2.25, false));
+        CHECK(driveDistance(Drivetrain::right, 12 + 2.5, false));
     }
 
     // Open window
-    CHECK(driveDistance(Drivetrain::right, 8, true));
+    CHECK(driveDistance(Drivetrain::right, 10, true));
+
+    // Mate with window
+    CHECK(driveDistance(Drivetrain::right, -2, true));
+    CHECK(driveDistance(Drivetrain::right, 6, false));
 
     // Close window
-    CHECK(driveDistance(Drivetrain::right, -8, true));
+    CHECK(driveDistance(Drivetrain::right, -10, true));
 
     drivetrain.stop();
     Hardware::arm.Off();
-    logger.log("End showcase", "mile");
+    logger.log("End showcase 2", "mile");
     return;
 
 end:

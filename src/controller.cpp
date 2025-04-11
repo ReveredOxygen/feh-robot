@@ -91,13 +91,13 @@ bool onLine(char sensor, LineType type) {
             // LCD.WriteRC('U', 7, 9);
             switch (sensor) {
                 case 'r':
-                    return multiSample(Hardware::rightOptosensor) < 2.87;
+                    return multiSample(Hardware::rightOptosensor) < 2.86;
                     break;
                 case 'l':
-                    return multiSample(Hardware::leftOptosensor) < 2.95;
+                    return multiSample(Hardware::leftOptosensor) < 2.94;
                     break;
                 case 'c':
-                    return multiSample(Hardware::centerOptosensor) < 2.99;
+                    return multiSample(Hardware::centerOptosensor) < 2.81;
                     break;
                 default:
                     logger.log("Invalid onLine sensor", "ctrl", logging::Error);
@@ -110,7 +110,7 @@ bool onLine(char sensor, LineType type) {
             // LCD.WriteRC('B', 7, 9);
             switch (sensor) {
                 case 'r':
-                    return Hardware::rightOptosensor.Value() > 3.0;
+                    return Hardware::rightOptosensor.Value() > 2.9;
                     break;
                 case 'l':
                     return Hardware::leftOptosensor.Value() > 3.0;
@@ -151,7 +151,9 @@ bool lineFollow(LineType type, bool reverse, float minTime) {
         speed = -speed;
     }
 
-    while (!lineFinish) {   // Loop until we see the end of the line
+    while (!lineFinish &&
+           TimeNow() <
+               startTime + 10) {   // Loop until we see the end of the line
         bool left = onLine('l', type);
         bool right = onLine('r', type);
         bool center = onLine('c', type);
@@ -160,33 +162,33 @@ bool lineFollow(LineType type, bool reverse, float minTime) {
 
         LCD.SetBackgroundColor(WHITE);
         LCD.SetFontColor(BLACK);
-        if (left) {
-            LCD.WriteRC('L', 2, 3);
-        } else {
-            LCD.WriteRC(' ', 2, 3);
-        }
+        // if (left) {
+        //     LCD.WriteRC('L', 2, 3);
+        // } else {
+        //     LCD.WriteRC(' ', 2, 3);
+        // }
         if (center) {
             LCD.WriteRC('C', 3, 3);
         } else {
             LCD.WriteRC(' ', 3, 3);
         }
-        if (right) {
-            LCD.WriteRC('R', 4, 3);
-        } else {
-            LCD.WriteRC(' ', 4, 3);
-        }
+        // if (right) {
+        //     LCD.WriteRC('R', 4, 3);
+        // } else {
+        //     LCD.WriteRC(' ', 4, 3);
+        // }
 
-        if (seenLine) {
-            LCD.WriteRC('S', 3, 5);
-        } else {
-            LCD.WriteRC(' ', 3, 5);
-        }
+        // if (seenLine) {
+        //     LCD.WriteRC('S', 3, 5);
+        // } else {
+        //     LCD.WriteRC(' ', 3, 5);
+        // }
 
-        if (lineFinish) {
-            LCD.WriteRC('F', 3, 7);
-        } else {
-            LCD.WriteRC(' ', 3, 7);
-        }
+        // if (lineFinish) {
+        //     LCD.WriteRC('F', 3, 7);
+        // } else {
+        //     LCD.WriteRC(' ', 3, 7);
+        // }
 
         switch (state) {
             // If I am in the middle of the line...
