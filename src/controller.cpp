@@ -149,11 +149,11 @@ void loadCalibration(LineType type) {
     if (type == LINE_BLACK_OUTLINED) {
         logger.log("Loading BLUE calib", "init");
         threshold = thresholds::line_blue;
-        file = SD.FOpen("calib_black.txt", "r");
+        file = SD.FOpen("black.txt", "r");
     } else {
         logger.log("Loading BLACK calib", "init");
         threshold = thresholds::line_black;
-        file = SD.FOpen("calib_blue.txt", "r");
+        file = SD.FOpen("blue", "r");
     }
 
     for (int i = 0; i < 3; i++) {
