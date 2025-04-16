@@ -55,8 +55,15 @@ Menu* getMenu() {
                          CHECK(activeSleep(0.24));
                          Hardware::forkMotor.SetPercent(0);
                      })
-        ->withSubmenu("Showcase",
-                      MenuBuilder().withOption("Confirm", showcase)->build())
+        ->withSubmenu(
+            "Showcase",
+            MenuBuilder()
+                .withOption("Confirm", showcase)
+                ->withOption("", []() {})
+                ->withOption("BLUE calib", []() { calibrateLine(LINE_BLUE); })
+                ->withOption("BLACK calib",
+                             []() { calibrateLine(LINE_BLACK_OUTLINED); })
+                ->build())
         ->withOption("Showcase 2", []() { showcase2(true); })
         ->build();
 }
