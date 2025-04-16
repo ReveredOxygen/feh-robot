@@ -20,3 +20,10 @@ extern float pauseTime;
 
 // approx 33.5 ms
 const float TICK_INTERVAL = (1. / 3.) / (318 / (2 * 2 * 2 * 2 * 2));
+
+namespace thresholds {
+
+extern float line_blue[3];
+extern float line_black[3];
+
+};   // namespace thresholds
