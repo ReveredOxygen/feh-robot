@@ -2,7 +2,7 @@
 
 #include <FEHMotor.h>
 
-#include <algorithm>
+// #include <algorithm>
 
 #include "hardware.h"
 #include "logging.h"
@@ -12,6 +12,17 @@ using namespace std;
 const float ROOT_3 = sqrt(3);
 
 const float P_CONST = 3.5;
+
+float clamp(float v, float lo, float hi) {
+    if (v < lo) {
+        return lo;
+    }
+    if (v > hi) {
+        return hi;
+    }
+
+    return v;
+}
 
 void Drivetrain::stop() {
     Hardware::leftMotor.stop();
