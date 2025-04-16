@@ -11,6 +11,13 @@
 
 float pauseTime = 0.5;
 
+namespace thresholds {
+
+float line_blue[3] = {2.94, 2.81, 2.86};
+float line_black[3] = {3, 3, 2.9};
+
+};   // namespace thresholds
+
 bool activeSleep(float seconds) {
     float startTime = TimeNow();
     float currTime = TimeNow();
@@ -85,21 +92,24 @@ float multiSample(AnalogInputPin pin, int samples) {
     return acc / samples;
 }
 
-
+void calibrateLine(LineType type) {}
 
 bool onLine(char sensor, LineType type) {
     switch (type) {
         case LINE_BLUE:
             // LCD.WriteRC('U', 7, 9);
             switch (sensor) {
-                case 'r':
-                    return multiSample(Hardware::rightOptosensor) < 2.86;
-                    break;
                 case 'l':
-                    return multiSample(Hardware::leftOptosensor) < 2.94;
+                    return multiSample(Hardware::leftOptosensor) <
+                           thresholds::line_blue[0];
                     break;
                 case 'c':
-                    return multiSample(Hardware::centerOptosensor) < 2.81;
+                    return multiSample(Hardware::centerOptosensor) <
+                           thresholds::line_blue[1];
+                    break;
+                case 'r':
+                    return multiSample(Hardware::rightOptosensor) <
+                           thresholds::line_black[2];
                     break;
                 default:
                     logger.log("Invalid onLine sensor", "ctrl", logging::Error);
@@ -111,14 +121,17 @@ bool onLine(char sensor, LineType type) {
         case LINE_BLACK_OUTLINED:
             // LCD.WriteRC('B', 7, 9);
             switch (sensor) {
-                case 'r':
-                    return Hardware::rightOptosensor.Value() > 2.9;
-                    break;
                 case 'l':
-                    return Hardware::leftOptosensor.Value() > 3.0;
+                    return Hardware::leftOptosensor.Value() >
+                           thresholds::line_black[0];
                     break;
                 case 'c':
-                    return Hardware::centerOptosensor.Value() > 3.0;
+                    return Hardware::centerOptosensor.Value() >
+                           thresholds::line_black[1];
+                    break;
+                case 'r':
+                    return Hardware::rightOptosensor.Value() >
+                           thresholds::line_black[2];
                     break;
                 default:
                     logger.log("Invalid onLine sensor", "ctrl", logging::Error);
