@@ -550,7 +550,7 @@ void showcase() {
     CHECK(activeSleep(1.5));
 
     // Drive into apples
-    CHECK(driveDistance(Drivetrain::left, 3, false));
+    CHECK(driveDistance(Drivetrain::left, 4, false));
 
     // Lift apples
     Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION);
@@ -583,13 +583,13 @@ void showcase() {
     pauseTime = 0;
     // Go forward and back in an attempt to knock apples over
     CHECK(driveDistance(Drivetrain::left, -2));
-    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
     CHECK(driveDistance(Drivetrain::left, 2));
-    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
+    // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
     CHECK(driveDistance(Drivetrain::left, -2));
-    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
     CHECK(driveDistance(Drivetrain::left, 2));
-    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
+    // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
 
     // Pull back to unhook apples
     CHECK(driveDistance(Drivetrain::left, -8));
