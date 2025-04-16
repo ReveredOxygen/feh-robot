@@ -580,6 +580,11 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::left, 48));
     drivetrain.setMaxSpeed(6);
 
+    //square with wall again on top of ramp
+    Check(rotateClockwise (60))
+    CHECK(driveDistance(Drivetrain::rear, 4));
+    CHECK(driveDistance(Drivetrain::rear, -2));
+
     // Rotate to get arm above table
     // CHECK(rotateClockwise(45));
 
