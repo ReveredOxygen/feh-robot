@@ -17,6 +17,7 @@ bool lineFollow(LineType type, bool reverse = false, float minTime = 0);
 float multiSample(AnalogInputPin pin, int samples = 5, float time = 1. / 1000);
 
 void calibrateLine(LineType type);
+void loadCalibration(LineType type);
 
 extern float pauseTime;
 

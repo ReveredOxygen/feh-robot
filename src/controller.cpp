@@ -142,6 +142,26 @@ void calibrateLine(LineType type) {
     Sleep(1.);
 }
 
+void loadCalibration(LineType type) {
+    FEHFile *file;
+    float *threshold;
+    if (type == LINE_BLACK_OUTLINED) {
+        logger.log("Loading BLUE calib", "init");
+        threshold = thresholds::line_blue;
+        file = SD.FOpen("calib_black.txt", "r");
+    } else {
+        logger.log("Loading BLACK calib", "init");
+        threshold = thresholds::line_black;
+        file = SD.FOpen("calib_blue.txt", "r");
+    }
+
+    for (int i = 0; i < 3; i++) {
+        SD.FScanf(file, "%f ", &threshold[i]);
+    }
+
+    SD.FClose(file);
+}
+
 bool onLine(char sensor, LineType type) {
     switch (type) {
         case LINE_BLUE:
