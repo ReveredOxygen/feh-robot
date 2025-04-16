@@ -1,9 +1,11 @@
 #include "controller.h"
 
 #include <FEHLCD.h>
+#include <FEHSD.h>
 #include <FEHUtility.h>
 
 #include <algorithm>
+#include <string>
 
 #include "drivetrain.h"
 #include "gui.h"
@@ -82,17 +84,63 @@ bool rotateClockwise(float degrees, float precision) {
     return true;
 }
 
-float multiSample(AnalogInputPin pin, int samples) {
+float multiSample(AnalogInputPin pin, int samples, float time) {
     float acc = 0;
 
     for (int i = 0; i < samples; i++) {
         acc += pin.Value();
+
+        if (time > 0) {
+            Sleep(time / samples);
+        }
     }
 
     return acc / samples;
 }
 
-void calibrateLine(LineType type) {}
+void calibrateLine(LineType type) {
+    LCD.Clear();
+    float *threshold;
+    FEHFile *file;
+    if (type == LINE_BLACK_OUTLINED) {
+        LCD.WriteLine("Calibrating line BLACK");
+        threshold = thresholds::line_black;
+        file = SD.FOpen("calib_black.txt", "w");
+    } else {
+        LCD.WriteLine("Calibrating line BLUE");
+        threshold = thresholds::line_blue;
+        file = SD.FOpen("calib_blue.txt", "w");
+    }
+
+    int x, y;
+
+    float on[3];
+    float off[3];
+
+    LCD.WriteLine("Place sensors over line, then tap screen");
+    while (!LCD.Touch(&x, &y));
+    LCD.WriteLine("Reading...");
+    on[0] = multiSample(Hardware::leftOptosensor, 100, 0.25);
+    on[1] = multiSample(Hardware::centerOptosensor, 100, 0.25);
+    on[2] = multiSample(Hardware::rightOptosensor, 100, 0.25);
+
+    LCD.WriteLine("Place sensors off line, then tap screen");
+    while (!LCD.Touch(&x, &y));
+    LCD.WriteLine("Reading...");
+    off[0] = multiSample(Hardware::leftOptosensor, 100, 0.25);
+    off[1] = multiSample(Hardware::centerOptosensor, 100, 0.25);
+    off[2] = multiSample(Hardware::rightOptosensor, 100, 0.25);
+
+    LCD.WriteLine("Saving");
+    for (int i = 0; i < 3; i++) {
+        threshold[i] = (on[i] + off[i]) / 2;
+        SD.FPrintf(file, "%f ", threshold[i]);
+    }
+
+    SD.FClose(file);
+    LCD.WriteLine("Done!");
+    Sleep(1.);
+}
 
 bool onLine(char sensor, LineType type) {
     switch (type) {

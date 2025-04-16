@@ -55,8 +55,15 @@ Menu* getMenu() {
                          CHECK(activeSleep(0.24));
                          Hardware::forkMotor.SetPercent(0);
                      })
-        ->withSubmenu("Showcase",
-                      MenuBuilder().withOption("Confirm", showcase)->build())
+        ->withSubmenu(
+            "Showcase",
+            MenuBuilder()
+                .withOption("Confirm", showcase)
+                ->withOption("", []() {})
+                ->withOption("BLUE calib", []() { calibrateLine(LINE_BLUE); })
+                ->withOption("BLACK calib",
+                             []() { calibrateLine(LINE_BLACK_OUTLINED); })
+                ->build())
         ->withOption("Showcase 2", []() { showcase2(true); })
         ->build();
 }
@@ -565,14 +572,14 @@ void showcase() {
     // Align with ramp
     CHECK(driveDistance(Drivetrain::left, -11));
 
-    //Rotate to square with wall
-    Check(rotateClockwise (60))
+    // Rotate to square with wall
+    Check(rotateClockwise(60))
 
-    //square with wall
-    CHECK(driveDistance(Drivetrain::rear, 4));
+        // square with wall
+        CHECK(driveDistance(Drivetrain::rear, 4));
     CHECK(driveDistance(Drivetrain::rear, -2));
 
-    //align to drive up ramp
+    // align to drive up ramp
     CHECK(rotateClockwise(-30));
 
     // Drive up ramp
