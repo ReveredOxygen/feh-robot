@@ -566,24 +566,27 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::left, -11));
 
     //Rotate to square with wall
-    Check(rotateClockwise (60))
+    CHECK(rotateClockwise(64));
 
     //square with wall
-    CHECK(driveDistance(Drivetrain::rear, 4));
-    CHECK(driveDistance(Drivetrain::rear, -2));
+    CHECK(driveDistance(Drivetrain::forward, 6));
+    CHECK(driveDistance(Drivetrain::forward, -2));
 
     //align to drive up ramp
-    CHECK(rotateClockwise(-30));
+    CHECK(rotateClockwise(30));
 
     // Drive up ramp
     drivetrain.setMaxSpeed(10);
-    CHECK(driveDistance(Drivetrain::left, 48));
+    CHECK(driveDistance(Drivetrain::left, 40));
     drivetrain.setMaxSpeed(6);
 
     //square with wall again on top of ramp
-    Check(rotateClockwise (60))
-    CHECK(driveDistance(Drivetrain::rear, 4));
-    CHECK(driveDistance(Drivetrain::rear, -2));
+    CHECK(driveDistance(Drivetrain::forward, 10));
+    CHECK(driveDistance(Drivetrain::forward, -2));
+    CHECK(rotateClockwise (30));
+
+    //drive into table
+    CHECK(driveDistance(Drivetrain::left, 5));
 
     // Rotate to get arm above table
     // CHECK(rotateClockwise(45));
