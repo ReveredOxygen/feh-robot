@@ -99,6 +99,7 @@ float multiSample(AnalogInputPin pin, int samples, float time) {
 }
 
 void calibrateLine(LineType type) {
+    LCD.SetFontColor(WHITE);
     LCD.Clear();
     float *threshold;
     FEHFile *file;
