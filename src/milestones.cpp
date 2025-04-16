@@ -565,7 +565,15 @@ void showcase() {
     // Align with ramp
     CHECK(driveDistance(Drivetrain::left, -11));
 
-    CHECK(rotateClockwise(100));
+    //Rotate to square with wall
+    Check(rotateClockwise (60))
+
+    //square with wall
+    CHECK(driveDistance(Drivetrain::rear, 4));
+    CHECK(driveDistance(Drivetrain::rear, -2));
+
+    //align to drive up ramp
+    CHECK(rotateClockwise(-30));
 
     // Drive up ramp
     drivetrain.setMaxSpeed(10);
