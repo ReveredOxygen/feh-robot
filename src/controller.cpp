@@ -85,6 +85,8 @@ float multiSample(AnalogInputPin pin, int samples) {
     return acc / samples;
 }
 
+
+
 bool onLine(char sensor, LineType type) {
     switch (type) {
         case LINE_BLUE:
