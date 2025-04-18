@@ -593,22 +593,31 @@ void showcase() {
     CHECK(rotateClockwise (30));
 
     //drive into table
+<<<<<<< Updated upstream
     CHECK(driveDistance(Drivetrain::left, 7));
+=======
+    CHECK(driveDistance(Drivetrain::left, 8));
+>>>>>>> Stashed changes
 
     // Rotate to get arm above table
     // CHECK(rotateClockwise(45));
 
     // Let it down
+<<<<<<< Updated upstream
     int i;
     for (i=0;i<26;i++)
     {
         Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 20);
     }
 
+=======
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 40);
+>>>>>>> Stashed changes
     // Hardware::arm.SetDegree(180);
 
     drivetrain.setMaxSpeed(12);
     pauseTime = 0;
+<<<<<<< Updated upstream
     // Go forward and back in an attempt to knock apples over
     //CHECK(driveDistance(Drivetrain::left, -2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
@@ -618,6 +627,17 @@ void showcase() {
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
     //CHECK(driveDistance(Drivetrain::left, 2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
+=======
+    // // Go forward and back in an attempt to knock apples over
+    // CHECK(driveDistance(Drivetrain::left, -2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    // CHECK(driveDistance(Drivetrain::left, 2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
+    // CHECK(driveDistance(Drivetrain::left, -2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    // CHECK(driveDistance(Drivetrain::left, 2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
+>>>>>>> Stashed changes
 
     // Pull back to unhook apples
     CHECK(driveDistance(Drivetrain::left, -8));
@@ -645,7 +665,12 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::left, -9, true));
     CHECK(driveDistance(Drivetrain::left, 4, false));
 
+<<<<<<< Updated upstream
     CHECK(activeSleep(5));
+=======
+    //test stop
+    drivetrain.stop();
+>>>>>>> Stashed changes
 
     // Align with the line
     CHECK(lineFollow(LINE_BLUE, false, 0.5));
