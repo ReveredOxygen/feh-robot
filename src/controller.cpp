@@ -246,21 +246,21 @@ bool lineFollow(LineType type, bool reverse, float minTime) {
 
         LCD.SetBackgroundColor(WHITE);
         LCD.SetFontColor(BLACK);
-        // if (left) {
-        //     LCD.WriteRC('L', 2, 3);
-        // } else {
-        //     LCD.WriteRC(' ', 2, 3);
-        // }
+        if (left) {
+            LCD.WriteRC('L', 2, 3);
+        } else {
+            LCD.WriteRC(' ', 2, 3);
+        }
         if (center) {
             LCD.WriteRC('C', 3, 3);
         } else {
             LCD.WriteRC(' ', 3, 3);
         }
-        // if (right) {
-        //     LCD.WriteRC('R', 4, 3);
-        // } else {
-        //     LCD.WriteRC(' ', 4, 3);
-        // }
+        if (right) {
+            LCD.WriteRC('R', 4, 3);
+        } else {
+            LCD.WriteRC(' ', 4, 3);
+        }
 
         // if (seenLine) {
         //     LCD.WriteRC('S', 3, 5);
