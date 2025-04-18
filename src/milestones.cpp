@@ -601,7 +601,7 @@ void showcase() {
     // Let it down slowly
     int i;
     float arm_rotation;
-    arm_rotation = Hardware::APPLE_LIFT_ROTATION
+    arm_rotation = Hardware::APPLE_LIFT_ROTATION;
     for (i = 0; i < 25; i++)
     {
         Hardware::arm.SetDegree(arm_rotation);
