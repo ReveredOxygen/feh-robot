@@ -553,7 +553,10 @@ void showcase() {
     CHECK(lineFollow(LINE_BLACK_OUTLINED, true, 1.5));
 
     // Prepare arm
-    Hardware::arm.SetDegree(Hardware::APPLE_GRAB_ROTATION);
+    int i;
+    for (i = 180; i > Hardware::APPLE_GRAB_ROTATION; i--) {
+        Hardware::arm.SetDegree(i);
+    }
     CHECK(activeSleep(1.5));
 
     // Drive into apples
@@ -599,7 +602,6 @@ void showcase() {
     // CHECK(rotateClockwise(45));
 
     // Let it down slowly
-    int i;
     float arm_rotation;
     arm_rotation = Hardware::APPLE_LIFT_ROTATION;
     for (i = 0; i < 30; i++) {
