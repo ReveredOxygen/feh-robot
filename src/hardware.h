@@ -16,7 +16,7 @@ extern const float wheelCircumference;
 
 const float wheelCircleRadius = 3.9375;
 
-const float APPLE_GRAB_ROTATION = 42;
+const float APPLE_GRAB_ROTATION = 45;
 const float APPLE_LIFT_ROTATION = APPLE_GRAB_ROTATION + 60;
 
 extern FEHMotor rawRearMotor;
