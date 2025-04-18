@@ -480,8 +480,6 @@ void milestone5() {
 }
 
 void showcase() {
-    // RCS.InitializeTouchMenu("1020C1DXY");
-
     logger.log("Begin showcase", "gui");
     ui.openView(MainUI::LogView);
 
@@ -490,7 +488,6 @@ void showcase() {
     Buzzer.Beep();
 
     while (Hardware::cdsCell.Value() > 2);
-    // Sleep(3.);
 
     pauseTime = 0;
 
@@ -522,9 +519,6 @@ void showcase() {
 
     Hardware::forkMotor.SetPercent(batPct(70));
     CHECK(activeSleep(3));
-    // Hardware::forkMotor.SetPercent(0);
-
-    // CHECK(activeSleep(pauseTime));
 
     Hardware::forkMotor.SetPercent(batPct(-70));
     CHECK(activeSleep(3));
@@ -587,9 +581,8 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::left, 48));
     drivetrain.setMaxSpeed(6);
 
-    //square with wall again on top of ramp
-    Check(rotateClockwise (60))
-    CHECK(driveDistance(Drivetrain::rear, 4));
+    // square with wall again on top of ramp
+    Check(rotateClockwise(60)) CHECK(driveDistance(Drivetrain::rear, 4));
     CHECK(driveDistance(Drivetrain::rear, -2));
 
     // Rotate to get arm above table
