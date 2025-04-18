@@ -598,10 +598,14 @@ void showcase() {
     // Rotate to get arm above table
     // CHECK(rotateClockwise(45));
 
-    // Let it down
+    // Let it down slowly
     int i;
-    for (i = 0; i < 26; i++) {
-        Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 20);
+    float arm_rotation;
+    arm_rotation = Hardware::APPLE_LIFT_ROTATION
+    for (i = 0; i < 25; i++)
+    {
+        Hardware::arm.SetDegree(arm_rotation);
+        arm_rotation--;
     }
     // Hardware::arm.SetDegree(180);
 
@@ -632,6 +636,7 @@ void showcase() {
     // Drive over to the levers
 
     CHECK(activeSleep(5));
+
     CHECK(driveDistance(Drivetrain::left, -8, true));
     Hardware::arm.SetDegree(180);
     CHECK(driveDistance(Drivetrain::left, 12, false));
@@ -639,7 +644,6 @@ void showcase() {
     CHECK(activeSleep(5));
 
     CHECK(rotateClockwise(-55));
-
     CHECK(driveDistance(Drivetrain::left, -9, true));
     CHECK(driveDistance(Drivetrain::left, 4, false));
 
