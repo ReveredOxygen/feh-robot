@@ -106,11 +106,11 @@ void calibrateLine(LineType type) {
     if (type == LINE_BLACK_OUTLINED) {
         LCD.WriteLine("Calibrating line BLACK");
         threshold = thresholds::line_black;
-        file = SD.FOpen("calib_black.txt", "w");
+        file = SD.FOpen("black.txt", "w");
     } else {
         LCD.WriteLine("Calibrating line BLUE");
         threshold = thresholds::line_blue;
-        file = SD.FOpen("calib_blue.txt", "w");
+        file = SD.FOpen("blue.txt", "w");
     }
 
     int x, y;
