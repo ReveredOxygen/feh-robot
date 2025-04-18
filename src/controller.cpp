@@ -113,6 +113,8 @@ void calibrateLine(LineType type) {
         file = SD.FOpen("blue.txt", "w");
     }
 
+    Sleep(0.5);
+
     int x, y;
 
     float on[3] = {0, 0, 0};
