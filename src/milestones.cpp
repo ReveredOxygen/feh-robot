@@ -602,8 +602,7 @@ void showcase() {
     int i;
     float arm_rotation;
     arm_rotation = Hardware::APPLE_LIFT_ROTATION;
-    for (i = 0; i < 25; i++)
-    {
+    for (i = 0; i < 30; i++) {
         Hardware::arm.SetDegree(arm_rotation);
         arm_rotation--;
     }
@@ -622,7 +621,7 @@ void showcase() {
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
 
     // Pull back to unhook apples
-    CHECK(driveDistance(Drivetrain::left, -8));
+    CHECK(driveDistance(Drivetrain::left, -4));
 
     pauseTime = 0.5;
     drivetrain.setMaxSpeed(6);
@@ -637,17 +636,18 @@ void showcase() {
 
     CHECK(activeSleep(5));
 
+    CHECK(rotateClockwise(-30));
+    CHECK(driveDistance(Drivetrain::forward, 10));
+    CHECK(driveDistance(Drivetrain::forward, -2));
+    CHECK(rotateClockwise(30));
+
     CHECK(driveDistance(Drivetrain::left, -8, true));
     Hardware::arm.SetDegree(180);
-    CHECK(driveDistance(Drivetrain::left, 12, false));
-
-    CHECK(activeSleep(5));
+    CHECK(driveDistance(Drivetrain::left, 8, false));
 
     CHECK(rotateClockwise(-55));
     CHECK(driveDistance(Drivetrain::left, -9, true));
     CHECK(driveDistance(Drivetrain::left, 4, false));
-
-    CHECK(activeSleep(5));
 
     // Align with the line
     CHECK(lineFollow(LINE_BLUE, false, 0.5));
@@ -660,6 +660,8 @@ void showcase() {
     Hardware::forkMotor.SetPercent(batPct(70));
     CHECK(activeSleep(0.24));
     Hardware::forkMotor.SetPercent(0);
+
+    Hardware::arm.SetDegree(180);
 
     showcase2(false);
 
