@@ -480,6 +480,8 @@ void milestone5() {
 }
 
 void showcase() {
+    // RCS.InitializeTouchMenu("1020C1DXY");
+
     logger.log("Begin showcase", "gui");
     ui.openView(MainUI::LogView);
 
@@ -488,6 +490,7 @@ void showcase() {
     Buzzer.Beep();
 
     while (Hardware::cdsCell.Value() > 2);
+    // Sleep(3.);
 
     pauseTime = 0;
 
@@ -519,6 +522,9 @@ void showcase() {
 
     Hardware::forkMotor.SetPercent(batPct(70));
     CHECK(activeSleep(3));
+    // Hardware::forkMotor.SetPercent(0);
+
+    // CHECK(activeSleep(pauseTime));
 
     Hardware::forkMotor.SetPercent(batPct(-70));
     CHECK(activeSleep(3));
@@ -566,43 +572,72 @@ void showcase() {
     // Align with ramp
     CHECK(driveDistance(Drivetrain::left, -11));
 
-    // Rotate to square with wall
-    Check(rotateClockwise(60))
+    //Rotate to square with wall
+    CHECK(rotateClockwise(64));
 
-        // square with wall
-        CHECK(driveDistance(Drivetrain::rear, 4));
-    CHECK(driveDistance(Drivetrain::rear, -2));
+    //square with wall
+    CHECK(driveDistance(Drivetrain::forward, 6));
+    CHECK(driveDistance(Drivetrain::forward, -2));
 
-    // align to drive up ramp
-    CHECK(rotateClockwise(-30));
+    //align to drive up ramp
+    CHECK(rotateClockwise(30));
 
     // Drive up ramp
     drivetrain.setMaxSpeed(10);
-    CHECK(driveDistance(Drivetrain::left, 48));
+    CHECK(driveDistance(Drivetrain::left, 40));
     drivetrain.setMaxSpeed(6);
 
-    // square with wall again on top of ramp
-    Check(rotateClockwise(60)) CHECK(driveDistance(Drivetrain::rear, 4));
-    CHECK(driveDistance(Drivetrain::rear, -2));
+    //square with wall again on top of ramp
+    CHECK(driveDistance(Drivetrain::forward, 10));
+    CHECK(driveDistance(Drivetrain::forward, -2));
+    CHECK(rotateClockwise (30));
+
+    //drive into table
+<<<<<<< Updated upstream
+    CHECK(driveDistance(Drivetrain::left, 7));
+=======
+    CHECK(driveDistance(Drivetrain::left, 8));
+>>>>>>> Stashed changes
 
     // Rotate to get arm above table
     // CHECK(rotateClockwise(45));
 
     // Let it down
-    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 26);
+<<<<<<< Updated upstream
+    int i;
+    for (i=0;i<26;i++)
+    {
+        Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 20);
+    }
+
+=======
+    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 40);
+>>>>>>> Stashed changes
     // Hardware::arm.SetDegree(180);
 
     drivetrain.setMaxSpeed(12);
     pauseTime = 0;
+<<<<<<< Updated upstream
     // Go forward and back in an attempt to knock apples over
-    CHECK(driveDistance(Drivetrain::left, -2));
+    //CHECK(driveDistance(Drivetrain::left, -2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
-    CHECK(driveDistance(Drivetrain::left, 2));
+    //CHECK(driveDistance(Drivetrain::left, 2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
-    CHECK(driveDistance(Drivetrain::left, -2));
+    //CHECK(driveDistance(Drivetrain::left, -2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
-    CHECK(driveDistance(Drivetrain::left, 2));
+    //CHECK(driveDistance(Drivetrain::left, 2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
+=======
+    // // Go forward and back in an attempt to knock apples over
+    // CHECK(driveDistance(Drivetrain::left, -2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    // CHECK(driveDistance(Drivetrain::left, 2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
+    // CHECK(driveDistance(Drivetrain::left, -2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
+    // CHECK(driveDistance(Drivetrain::left, 2));
+    // // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
+>>>>>>> Stashed changes
 
     // Pull back to unhook apples
     CHECK(driveDistance(Drivetrain::left, -8));
@@ -611,20 +646,31 @@ void showcase() {
     drivetrain.setMaxSpeed(6);
 
     // Just put the apples on the ground
-    CHECK(driveDistance(Drivetrain::left, 6));
-    Hardware::arm.SetDegree(0);
-    CHECK(activeSleep(1));
-    CHECK(driveDistance(Drivetrain::left, -6));
+    //CHECK(driveDistance(Drivetrain::left, 6));
+    //Hardware::arm.SetDegree(0);
+    //CHECK(activeSleep(1));
+    //CHECK(driveDistance(Drivetrain::left, -6));
 
     // Drive over to the levers
+
+    CHECK(activeSleep(5));
     CHECK(driveDistance(Drivetrain::left, -8, true));
     Hardware::arm.SetDegree(180);
     CHECK(driveDistance(Drivetrain::left, 12, false));
+
+    CHECK(activeSleep(5));
 
     CHECK(rotateClockwise(-55));
 
     CHECK(driveDistance(Drivetrain::left, -9, true));
     CHECK(driveDistance(Drivetrain::left, 4, false));
+
+<<<<<<< Updated upstream
+    CHECK(activeSleep(5));
+=======
+    //test stop
+    drivetrain.stop();
+>>>>>>> Stashed changes
 
     // Align with the line
     CHECK(lineFollow(LINE_BLUE, false, 0.5));
