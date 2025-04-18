@@ -556,6 +556,7 @@ void showcase() {
     int i;
     for (i = 180; i > Hardware::APPLE_GRAB_ROTATION; i--) {
         Hardware::arm.SetDegree(i);
+        Sleep(0.005);
     }
     CHECK(activeSleep(1.5));
 
@@ -607,6 +608,7 @@ void showcase() {
     for (i = 0; i < 30; i++) {
         Hardware::arm.SetDegree(arm_rotation);
         arm_rotation--;
+        Sleep(0.005);
     }
     // Hardware::arm.SetDegree(180);
 
