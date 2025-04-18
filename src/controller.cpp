@@ -115,22 +115,45 @@ void calibrateLine(LineType type) {
 
     int x, y;
 
-    float on[3];
-    float off[3];
+    float on[3] = {0, 0, 0};
+    float off[3] = {0, 0, 0};
+
+    const float samples = 1000;
+    const float time = 4;
 
     LCD.WriteLine("Place sensors over line, then tap screen");
     while (!LCD.Touch(&x, &y));
     LCD.WriteLine("Reading...");
-    on[0] = multiSample(Hardware::leftOptosensor, 100, 0.25);
-    on[1] = multiSample(Hardware::centerOptosensor, 100, 0.25);
-    on[2] = multiSample(Hardware::rightOptosensor, 100, 0.25);
+    for (int i = 0; i < samples; i++) {
+        on[0] += Hardware::leftOptosensor.Value();
+        on[1] += Hardware::centerOptosensor.Value();
+        on[2] += Hardware::rightOptosensor.Value();
+
+        if (time > 0) {
+            Sleep(time / samples);
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        on[i] /= samples;
+    }
 
     LCD.WriteLine("Place sensors off line, then tap screen");
     while (!LCD.Touch(&x, &y));
     LCD.WriteLine("Reading...");
-    off[0] = multiSample(Hardware::leftOptosensor, 100, 0.25);
-    off[1] = multiSample(Hardware::centerOptosensor, 100, 0.25);
-    off[2] = multiSample(Hardware::rightOptosensor, 100, 0.25);
+    for (int i = 0; i < samples; i++) {
+        off[0] += Hardware::leftOptosensor.Value();
+        off[1] += Hardware::centerOptosensor.Value();
+        off[2] += Hardware::rightOptosensor.Value();
+
+        if (time > 0) {
+            Sleep(time / samples);
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        off[i] /= samples;
+    }
 
     LCD.WriteLine("Saving");
     for (int i = 0; i < 3; i++) {
