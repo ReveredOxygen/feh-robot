@@ -593,25 +593,30 @@ void showcase() {
     CHECK(rotateClockwise (30));
 
     //drive into table
-    CHECK(driveDistance(Drivetrain::left, 5));
+    CHECK(driveDistance(Drivetrain::left, 7));
 
     // Rotate to get arm above table
     // CHECK(rotateClockwise(45));
 
     // Let it down
-    Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 26);
+    int i;
+    for (i=0;i<26;i++)
+    {
+        Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 20);
+    }
+
     // Hardware::arm.SetDegree(180);
 
     drivetrain.setMaxSpeed(12);
     pauseTime = 0;
     // Go forward and back in an attempt to knock apples over
-    CHECK(driveDistance(Drivetrain::left, -2));
+    //CHECK(driveDistance(Drivetrain::left, -2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
-    CHECK(driveDistance(Drivetrain::left, 2));
+    //CHECK(driveDistance(Drivetrain::left, 2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 10);
-    CHECK(driveDistance(Drivetrain::left, -2));
+    //CHECK(driveDistance(Drivetrain::left, -2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
-    CHECK(driveDistance(Drivetrain::left, 2));
+    //CHECK(driveDistance(Drivetrain::left, 2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION - 15);
 
     // Pull back to unhook apples
@@ -621,20 +626,26 @@ void showcase() {
     drivetrain.setMaxSpeed(6);
 
     // Just put the apples on the ground
-    CHECK(driveDistance(Drivetrain::left, 6));
-    Hardware::arm.SetDegree(0);
-    CHECK(activeSleep(1));
-    CHECK(driveDistance(Drivetrain::left, -6));
+    //CHECK(driveDistance(Drivetrain::left, 6));
+    //Hardware::arm.SetDegree(0);
+    //CHECK(activeSleep(1));
+    //CHECK(driveDistance(Drivetrain::left, -6));
 
     // Drive over to the levers
+
+    CHECK(activeSleep(5));
     CHECK(driveDistance(Drivetrain::left, -8, true));
     Hardware::arm.SetDegree(180);
     CHECK(driveDistance(Drivetrain::left, 12, false));
+
+    CHECK(activeSleep(5));
 
     CHECK(rotateClockwise(-55));
 
     CHECK(driveDistance(Drivetrain::left, -9, true));
     CHECK(driveDistance(Drivetrain::left, 4, false));
+
+    CHECK(activeSleep(5));
 
     // Align with the line
     CHECK(lineFollow(LINE_BLUE, false, 0.5));
