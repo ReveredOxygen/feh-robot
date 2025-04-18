@@ -99,6 +99,7 @@ float multiSample(AnalogInputPin pin, int samples, float time) {
 }
 
 void calibrateLine(LineType type) {
+    LCD.SetFontColor(WHITE);
     LCD.Clear();
     float *threshold;
     FEHFile *file;
@@ -140,6 +141,26 @@ void calibrateLine(LineType type) {
     SD.FClose(file);
     LCD.WriteLine("Done!");
     Sleep(1.);
+}
+
+void loadCalibration(LineType type) {
+    FEHFile *file;
+    float *threshold;
+    if (type == LINE_BLACK_OUTLINED) {
+        logger.log("Loading BLUE calib", "init");
+        threshold = thresholds::line_blue;
+        file = SD.FOpen("black.txt", "r");
+    } else {
+        logger.log("Loading BLACK calib", "init");
+        threshold = thresholds::line_black;
+        file = SD.FOpen("blue", "r");
+    }
+
+    for (int i = 0; i < 3; i++) {
+        SD.FScanf(file, "%f ", &threshold[i]);
+    }
+
+    SD.FClose(file);
 }
 
 bool onLine(char sensor, LineType type) {
