@@ -660,11 +660,12 @@ void showcase() {
     // Back up keeping alignment
     CHECK(lineFollow(LINE_BLUE, true, 1));
 
-    Hardware::arm.SetDegree(0);
+    Hardware::arm.SetDegree(40);
 
     Hardware::forkMotor.SetPercent(batPct(70));
     CHECK(activeSleep(0.24));
     Hardware::forkMotor.SetPercent(0);
+    CHECK(activeSleep(0.26));
 
     Hardware::arm.SetDegree(Hardware::ARM_MAX);
 
@@ -714,9 +715,9 @@ void showcase2(bool follow) {
         CHECK(lineFollow(LINE_BLUE, true, 1));
     }
 
-    Hardware::arm.SetDegree(40);
-    CHECK(activeSleep(0.5));
-    Hardware::arm.SetDegree(Hardware::ARM_MAX);
+    // Hardware::arm.SetDegree(40);
+    // CHECK(activeSleep(0.5));
+    // Hardware::arm.SetDegree(Hardware::ARM_MAX);
 
     drivetrain.setMaxSpeed(6);
 
