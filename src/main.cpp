@@ -33,6 +33,11 @@ int main(void) {
                 []() {
                     Hardware::arm.SetDegree(Hardware::APPLE_GRAB_ROTATION);
                 })
+            ->withOption("CDS",
+                         []() {
+                             float l = multiSample(Hardware::cdsCell, 100, 0.2);
+                             logger.log(vformat("CDS %f", l), "gui");
+                         })
             ->build();
 
     ui.openView(MainUI::MenuView);

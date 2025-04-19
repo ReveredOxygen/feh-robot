@@ -722,7 +722,7 @@ void showcase2(bool follow) {
     float light = multiSample(Hardware::cdsCell);
     logger.log(vformat("light %f", light), "gui");
 
-    if (light > 0.7) {
+    if (light > 0.8) {
         // Assume the light is blue
         logger.log("BLUE", "mile");
         CHECK(driveDistance(Drivetrain::forward, 1.75, true));
