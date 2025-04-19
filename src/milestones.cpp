@@ -502,8 +502,9 @@ void showcase() {
 
     CHECK(driveDistance(Drivetrain::left, 2, false));
 
-    Hardware::arm.SetDegree(180);
-    CHECK(activeSleep(1.5));
+    logger.log("lift arm", "mile");
+    Hardware::arm.SetDegree(Hardware::ARM_MAX);
+    // CHECK(activeSleep(1.5));
 
     //
     // Compost bin
@@ -554,11 +555,11 @@ void showcase() {
 
     // Prepare arm
     int i;
-    for (i = 180; i > Hardware::APPLE_GRAB_ROTATION; i--) {
+    for (i = Hardware::ARM_MAX; i > Hardware::APPLE_GRAB_ROTATION; i--) {
         Hardware::arm.SetDegree(i);
-        Sleep(0.005);
+        Sleep(1.5 / (Hardware::ARM_MAX - Hardware::APPLE_GRAB_ROTATION));
     }
-    CHECK(activeSleep(1.5));
+    // CHECK(activeSleep(1.5));
 
     // Drive into apples
     CHECK(driveDistance(Drivetrain::left, 4, false));
@@ -638,7 +639,7 @@ void showcase() {
 
     // Drive over to the levers
 
-    CHECK(activeSleep(5));
+    // CHECK(activeSleep(5));
 
     CHECK(rotateClockwise(-30));
     CHECK(driveDistance(Drivetrain::forward, 10));
@@ -646,7 +647,7 @@ void showcase() {
     CHECK(rotateClockwise(30));
 
     CHECK(driveDistance(Drivetrain::left, -8, true));
-    Hardware::arm.SetDegree(180);
+    Hardware::arm.SetDegree(Hardware::ARM_MAX);
     CHECK(driveDistance(Drivetrain::left, 8, false));
 
     CHECK(rotateClockwise(-55));
@@ -665,7 +666,7 @@ void showcase() {
     CHECK(activeSleep(0.24));
     Hardware::forkMotor.SetPercent(0);
 
-    Hardware::arm.SetDegree(180);
+    Hardware::arm.SetDegree(Hardware::ARM_MAX);
 
     showcase2(false);
 

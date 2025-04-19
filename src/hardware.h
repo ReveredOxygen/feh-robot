@@ -18,6 +18,7 @@ const float wheelCircleRadius = 3.9375;
 
 const float APPLE_GRAB_ROTATION = 45;
 const float APPLE_LIFT_ROTATION = APPLE_GRAB_ROTATION + 60;
+const float ARM_MAX = 140;
 
 extern FEHMotor rawRearMotor;
 extern FEHMotor rawLeftMotor;
