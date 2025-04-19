@@ -755,7 +755,7 @@ void showcase2(bool follow) {
     }
 
     // Open window
-    CHECK(driveDistance(Drivetrain::right, 10, true));
+    CHECK(driveDistance(Drivetrain::right, 12, true));
 
     // Mate with window
     CHECK(driveDistance(Drivetrain::right, -2, true));
