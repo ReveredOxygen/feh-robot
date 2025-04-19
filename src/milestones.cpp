@@ -674,7 +674,11 @@ void showcase() {
 
     CHECK(driveDistance(Drivetrain::right, -30, true));
 
-    CHECK(driveDistance(Drivetrain::right, 45, false));
+    CHECK(driveDistance(Drivetrain::right, 3, true));
+
+    CHECK(rotateClockwise(30));
+
+    CHECK(driveDistance(Drivetrain::left, -45, false));
 
     CHECK(driveDistance(Drivetrain::right, -12, true));
 
