@@ -47,7 +47,7 @@ int main(void) {
     logger.log("Started gui", "gui");
 
     loadCalibration(LINE_BLUE);
-    loadCalibration(LINE_BLACK_OUTLINED);
+    // loadCalibration(LINE_BLACK_OUTLINED);
 
     while (1) {
         Sleep(TICK_INTERVAL);

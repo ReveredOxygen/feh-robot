@@ -496,7 +496,7 @@ void showcase() {
 
     CHECK(driveDistance(Drivetrain::left, 1, true));
 
-    pauseTime = 0.5;
+    pauseTime = 0.2;
 
     CHECK(driveDistance(Drivetrain::left, -2, false));
 
@@ -614,7 +614,7 @@ void showcase() {
     // Hardware::arm.SetDegree(180);
 
     drivetrain.setMaxSpeed(12);
-    pauseTime = 0;
+    // pauseTime = 0;
     // Go forward and back in an attempt to knock apples over
     // CHECK(driveDistance(Drivetrain::left, -2));
     // Hardware::arm.SetDegree(Hardware::APPLE_LIFT_ROTATION + 20);
@@ -628,7 +628,7 @@ void showcase() {
     // Pull back to unhook apples
     CHECK(driveDistance(Drivetrain::left, -4));
 
-    pauseTime = 0.5;
+    // pauseTime = 0.5;
     drivetrain.setMaxSpeed(6);
 
     // Just put the apples on the ground
