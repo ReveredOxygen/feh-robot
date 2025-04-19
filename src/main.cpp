@@ -38,8 +38,7 @@ int main(void) {
                              float l = multiSample(Hardware::cdsCell, 100, 0.2);
                              logger.log(vformat("CDS %f", l), "gui");
                          })
-            ->withOption("Arm 2",
-                         []() { Hardware::arm.SetDegree(Hardware::ARM_MAX); })
+            ->withOption("Arm 2", []() { Hardware::arm.SetDegree(20); })
             ->build();
 
     ui.openView(MainUI::MenuView);

@@ -516,7 +516,7 @@ void showcase() {
     CHECK(driveDistance(Drivetrain::right, 6, false));
 
     // Align with compost
-    CHECK(driveDistance(Drivetrain::right, -3.4, true));
+    CHECK(driveDistance(Drivetrain::right, -3.8, true));
 
     // Mate with compost
     CHECK(driveDistance(Drivetrain::right, 6, false));
@@ -551,7 +551,7 @@ void showcase() {
     CHECK(lineFollow(LINE_BLACK_OUTLINED, false, 0));
 
     // Back up keeping alignment
-    CHECK(lineFollow(LINE_BLACK_OUTLINED, true, 1.5));
+    CHECK(lineFollow(LINE_BLACK_OUTLINED, true, 0.5));
 
     // Prepare arm
     int i;
@@ -714,6 +714,10 @@ void showcase2(bool follow) {
         CHECK(lineFollow(LINE_BLUE, true, 1));
     }
 
+    Hardware::arm.SetDegree(40);
+    CHECK(activeSleep(0.5));
+    Hardware::arm.SetDegree(Hardware::ARM_MAX);
+
     drivetrain.setMaxSpeed(6);
 
     CHECK(rotateClockwise(15));
@@ -736,7 +740,7 @@ void showcase2(bool follow) {
         CHECK(driveDistance(Drivetrain::forward, -6, false));
 
         // Align with window
-        CHECK(driveDistance(Drivetrain::forward, 7, false));
+        CHECK(driveDistance(Drivetrain::forward, 9, false));
 
         CHECK(rotateClockwise(-25));
 
@@ -751,7 +755,7 @@ void showcase2(bool follow) {
         CHECK(driveDistance(Drivetrain::forward, -6, false));
 
         // Align with window
-        CHECK(driveDistance(Drivetrain::forward, 7, false));
+        CHECK(driveDistance(Drivetrain::forward, 9, false));
 
         CHECK(rotateClockwise(-25));
 
@@ -762,9 +766,21 @@ void showcase2(bool follow) {
     // Open window
     CHECK(driveDistance(Drivetrain::right, 12, true));
 
+    bool extra = false;
+
+    if (!RCS.isWindowOpen()) {
+        CHECK(driveDistance(Drivetrain::right, 6, true));
+        extra = true;
+    }
+
     // Mate with window
     CHECK(driveDistance(Drivetrain::right, -2, true));
-    CHECK(driveDistance(Drivetrain::right, 6, false));
+
+    if (extra) {
+        CHECK(driveDistance(Drivetrain::right, 12, false));
+    } else {
+        CHECK(driveDistance(Drivetrain::right, 6, false));
+    }
 
     // Close window
     CHECK(driveDistance(Drivetrain::right, -10, true));
